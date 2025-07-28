@@ -1,9 +1,14 @@
 import React from 'react'
 import css from "./Search.module.css"
 import { Model_Details } from '../../Data'
+import { useNavigate } from 'react-router-dom'
 
 const Search = () => {
-    const Card = ({ image, username, bio }) => {
+    const navigate = useNavigate();
+    const goToDetails = (id) => {
+        navigate(`/model/${id}`);
+    };
+    const Card = ({ image, username, bio, index }) => {
         return <div className={css.ModelsCards}>
             <div className={css.Photo}>
                 <img src={image} alt="modelPhoto" />
@@ -13,7 +18,7 @@ const Search = () => {
                 <span>{bio}</span>
             </div>
             <div className={css.EngagementButton}>
-                <button>View Profile</button>
+                <button onClick={() => goToDetails(index)}>View Profile</button>
             </div>
         </div>
     }
@@ -26,7 +31,7 @@ const Search = () => {
             <div className={css.ModelsGrid}>
                 {
                     Model_Details.map((model, index) => {
-                        return <Card image={model.photo} username={model.username} bio={model.bio} key={index} />
+                        return <Card image={model.photo} username={model.username} bio={model.bio} key={index} index={index} />
                     })
                 }
             </div>

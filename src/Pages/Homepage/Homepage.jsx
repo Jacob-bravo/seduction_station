@@ -7,10 +7,10 @@ import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
     const navigate = useNavigate();
-    const goToDetails = (username) => {
-        navigate(`/model/${username}`);
+    const goToDetails = (id) => {
+        navigate(`/model/${id}`);
     };
-    const Card = ({ image, username, bio }) => {
+    const Card = ({ image, username, bio,index }) => {
         return <div className={css.ModelsCards} >
             <div className={css.Photo}>
                 <img src={image} alt="modelPhoto" />
@@ -20,7 +20,7 @@ const Homepage = () => {
                 <span>{bio}</span>
             </div>
             <div className={css.EngagementButton}>
-                <button onClick={() => goToDetails(username)}>View Profile</button>
+                <button onClick={() => goToDetails(index)}>View Profile</button>
             </div>
         </div>
     }
@@ -29,7 +29,7 @@ const Homepage = () => {
             <div className={css.ModelsGrid}>
                 {
                     Model_Details.map((model, index) => {
-                        return <Card image={model.photo} username={model.username} bio={model.bio} key={index} />
+                        return <Card image={model.photo} username={model.username} bio={model.bio} key={index} index={index}/>
                     })
                 }
             </div>

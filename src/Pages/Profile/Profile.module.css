@@ -1,302 +1,138 @@
-.container {
-    height: 100vh;
-    color: white;
-    width: 100vw;
+.Frame {
     display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    color: white;
     align-items: center;
     justify-content: center;
 }
 
-.Column {
+.ProfileArea {
+    position: relative;
     display: flex;
-    width: 50%;
-    height: 100%;
-    flex-direction: column;
-    justify-content: space-evenly;
 }
 
-.profile {
+.EditButton {
     display: flex;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.Profile {
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 20px;
-    width: fit-content;
-    padding: 30px 150px 30px 30px;
-    border-radius: 20px;
-    background-color: var(--cardbackground);
+    justify-content: center;
+    gap: 10px;
+    width: 60%;
 }
 
-.infoColumn {
+.UserProfilesDetails {
     display: flex;
     flex-direction: column;
+    font-weight: bolder;
+    font-size: 20px;
 }
 
-.infoColumn>:nth-child(1) {
-    font-weight: bold;
-    font-size: 23px;
-}
-
-.infoColumn>:nth-child(2) {
+.UserProfilesDetails span:nth-child(2) {
     font-weight: normal;
-    font-size: 14px;
-    color: var(--textgrey);
+    font-size: 15px;
 }
 
-.image>img {
-    width: 120px;
+.Profile img {
     height: 120px;
+    width: 120px;
     object-fit: cover;
     object-position: top;
     border-radius: 50%;
-    overflow: hidden;
-    border: 1px solid var(--white);
 }
 
-form>button {
-    padding: 10px 10px 10px 5px;
-    background-color: var(--button);
-    width: 100%;
+form {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
     margin-top: 30px;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    cursor: pointer;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 .inputGroup {
-    position: relative;
+    width: 100%;
     display: flex;
-    background-color: var(--cardbackground);
-    margin-bottom: 30px;
-    width: 98.7%;
-    padding: 10px 10px 10px 5px;
-    border-radius: 5px;
-    border: none;
-}
-
-.inputGroup>i {
-    color: var(--white);
-    padding: 0px 4px 0px 4px;
+    background-color: transparent;
+    border: 1px solid white;
+    height: 50px;
+    border-radius: 20px;
+    align-items: center;
+    color: black;
+    margin-bottom: 10px;
 }
 
 .inputGroup input {
-    width: 100%;
-    background-color: transparent;
     border: none;
-    padding-left: 5px;
-    color: var(--white);
     outline: none;
-    height: 50px;
-    padding: 0px 10px;
-    border-radius: 10px;
-    border: 1px solid white;
-
+    padding-left: 15px;
+    width: 100%;
+    height: 48px;
+    color: white;
+    border-radius: 20px;
+    background-color: transparent;
 }
 
 .inputGroup input::placeholder {
     color: white;
 }
 
-.icon {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    transform: translateY(-50%);
-    color: #888;
-}
-
-.iconRight {
-    position: absolute;
-    top: 50%;
-    right: 30px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #888;
-}
-
-.UpdateProfile {
-    cursor: pointer;
+.inputGroup i {
+    padding-right: 10px;
     color: white;
 }
 
-.termination {
-    background-color: transparent;
-    color: red;
+form button {
+    margin-top: 10px;
+    width: 100%;
+    height: 50px;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    background-color: red;
+    color: white;
     cursor: pointer;
 }
 
+.UpdateProfile {
+    background-color: white;
+    color: black;
+}
+
+.Errors {
+    color: red;
+}
+
 @media (max-width: 1024px) {
-    .container {
-        height: 100vh;
-        color: white;
-        width: 100vw;
+
+
+    .Profile {
         display: flex;
-        overflow: hidden;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
-    }
-
-    .inputGroup {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        background-color: var(--cardbackground);
-        margin-bottom: 0px;
-        margin-left: 10px;
-        width: 90%;
-        border-radius: 5px;
-        border: none;
-    }
-
-    .inputGroup input {
-        width: 300px;
-    }
-
-    .image>img {
-        width: 60px;
-        height: 60px;
-        object-fit: cover;
-        object-position: top;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 1px solid var(--white);
-    }
-
-    .Column {
-        display: flex;
+        gap: 10px;
         width: 100%;
-        height: 100%;
-        overflow: hidden;
+    }
+
+    form {
+        width: 80%;
+        display: flex;
         flex-direction: column;
+        margin-top: 30px;
+        gap: 10px;
         align-items: center;
         justify-content: center;
-
-    }
-
-    .UpdateProfile {
-        cursor: pointer;
-        color: white;
-        width: 100%;
-    }
-
-    .termination {
-        background-color: transparent;
-        color: red;
-        width: 100%;
-        cursor: pointer;
-    }
-
-    .profile {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        padding: 0px 0px 0px 0px;
-        margin-bottom: 50px;
-        border-radius: 20px;
-    }
-
-    .infoColumn {
-        display: flex;
-        background-color: blue;
-        flex-direction: column;
-    }
-
-    .infoColumn>:nth-child(1) {
-        font-weight: bold;
-        font-size: 23px;
-    }
-
-    .infoColumn>:nth-child(2) {
-        font-weight: normal;
-        font-size: 14px;
-        color: var(--textgrey);
     }
 
 }
 
-@media (max-width: 600px) {
-    .container {
-        height: 100vh;
-        color: white;
-        width: 100vw;
-        display: flex;
-        overflow: hidden;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .inputGroup {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        background-color: var(--cardbackground);
-        margin-bottom: 0px;
-        margin-left: 10px;
-        width: 90%;
-        border-radius: 5px;
-        border: none;
-    }
-
-    .inputGroup input {
-        width: 300px;
-    }
-
-    .image>img {
-        width: 60px;
-        height: 60px;
-        object-fit: cover;
-        object-position: top;
-        border-radius: 50%;
-        overflow: hidden;
-        border: 1px solid var(--white);
-    }
-
-    .Column {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-    }
-
-    .UpdateProfile {
-        cursor: pointer;
-        color: white;
-        width: 100%;
-    }
-
-    .termination {
-        background-color: transparent;
-        color: red;
-        width: 100%;
-        cursor: pointer;
-    }
-
-    .profile {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        padding: 0px 0px 0px 0px;
-        margin-bottom: 50px;
-        border-radius: 20px;
-    }
-
-    .infoColumn {
-        display: flex;
-        background-color: blue;
-        flex-direction: column;
-    }
-
-    .infoColumn>:nth-child(1) {
-        font-weight: bold;
-        font-size: 23px;
-    }
-
-    .infoColumn>:nth-child(2) {
-        font-weight: normal;
-        font-size: 14px;
-        color: var(--textgrey);
-    }
-}
+@media (max-width: 600px) {}

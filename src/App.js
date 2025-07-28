@@ -8,6 +8,7 @@ import Profile from "./Pages/Profile/Profile";
 import Layout from './Components/Layout/Layout';
 import Search from './Pages/Search/Search';
 import Details from './Pages/ModelDetails/Details';
+import MobileDetails from './Pages/MobileDetails/MobileDetails';
 
 function App() {
   return (
@@ -20,8 +21,8 @@ function App() {
           <Route path='/messages/index' element={<MobileChats />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/search' element={<Search />} />
-          <Route path="/model/:username" element={<Details />} />
-
+          <Route path="/model/:id" element={<Details />} />
+          <Route path="/model/media/:id" element={<MobileDetails />} />
         </Route>
 
       </Routes>

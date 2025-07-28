@@ -26,7 +26,7 @@ const Chats = () => {
                 <div className={css.ChatsList}>
                     <div className={css.SearchArea}>
                         <i class="uil uil-search"></i>
-                        <input type="text" name="" id="" placeholder='search' />
+                        <input type="text" name="" id="" placeholder='Search' />
                         <i class="uil uil-trash-alt"></i>
 
                     </div>
@@ -36,9 +36,6 @@ const Chats = () => {
                                 return <CardConversation index={index} profile={convo.photo} username={convo.username} lastmessage={convo.lastMessage} timestamp={convo.timestamp} key={index} />
                             })
                         }
-                    </div>
-                    <div className={css.UnreadMessagesCount}>
-                        <span>1 unread Message</span>
                     </div>
                 </div>
                 {/* Chat Area Section */}
