@@ -1,0 +1,357 @@
+.Frame {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    flex-direction: row;
+}
+
+.FrameRows {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.ChatsList {
+    height: 100%;
+    width: 30vw;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border-right: 1px solid white;
+    padding: 5px;
+}
+
+
+
+
+.Conversations {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.Conversations::-webkit-scrollbar {
+    width: 6px;
+}
+
+.Conversations::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.Conversations::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.Conversations::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.SearchArea {
+    width: 100%;
+    color: white;
+    border: 1px solid white;
+    height: 50px;
+    padding: 5px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+}
+
+.SearchArea input {
+    width: 100%;
+    outline: none;
+    height: 30px;
+    border: none;
+    padding-left: 5px;
+    color: white;
+    background-color: transparent;
+}
+
+.SearchArea input::placeholder {
+    color: white;
+}
+
+.SearchArea i:nth-child(1) {
+    padding-left: 8px;
+}
+
+.SearchArea i:nth-child(3) {
+    padding-right: 10px;
+    cursor: pointer;
+}
+
+.UnreadMessagesCount {
+    position: absolute;
+    bottom: 0;
+    cursor: pointer;
+    z-index: 1;
+    right: 0;
+    margin: 20px;
+}
+
+.UnreadMessagesCount {
+    box-sizing: content-box;
+    padding: 10px;
+    border-radius: 20px;
+    width: fit-content;
+    background-color: #832bff;
+}
+
+.ChatAreaSection {
+    height: 100%;
+    overflow: hidden;
+    width: 75vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.ChatNavigation {
+    color: white;
+    display: flex;
+    box-sizing: border-box;
+    padding: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.More {
+    display: flex;
+    box-sizing: content-box;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+
+.ChatUserDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.QuickActions {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.MessagesArea {
+    margin-left: 3px;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
+.InputMessageArea {
+    margin-bottom: 10px;
+    width: 60%;
+    align-self: center;
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid white;
+    display: flex;
+    color: white;
+    padding: 0px 10px;
+    align-items: center;
+}
+
+.InputMessageArea input {
+    border: none;
+    outline: none;
+    padding-left: 8px;
+    width: 100%;
+    height: 40px;
+    color: white;
+    background-color: transparent;
+}
+
+.InputMessageArea input::placeholder {
+    color: white;
+}
+
+.ChatUserDetails span:nth-child(1) {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.ChatUserDetails span:nth-child(2) {
+    font-weight: normal;
+    font-size: 13px;
+}
+
+
+.ConversationCard {
+    display: flex;
+    color: white;
+    justify-content: space-between;
+    gap: 40px;
+    cursor: pointer;
+    margin: 10px 0px;
+    transition: background-color 0.3s ease, border-radius 0.3s ease;
+}
+
+
+
+.ConversationCard:hover {
+    background-color: #e63737;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 5px;
+
+}
+
+.Timestamp {
+    padding-right: 8px;
+}
+
+.ActiveConversationCard {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    gap: 50px;
+    margin: 10px 0px;
+    box-sizing: border-box;
+    padding: 5px;
+    cursor: pointer;
+    background-color: red;
+    border-radius: 5px;
+}
+
+.ChatProfileDetails {
+    display: flex;
+    gap: 15px;
+}
+
+.ConvoChatDetails {
+    display: flex;
+    color: white;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.ConvoChatDetails span:nth-child(1) {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.ConvoChatDetails span:nth-child(2) {
+    font-size: 13px;
+    font-weight: normal;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 12vw;
+}
+
+.ChatProfileDetails img {
+    height: 60px;
+    width: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+@media (max-width: 1024px) {
+    .ChatAreaSection {
+        display: none;
+    }
+
+    .ChatsList {
+        height: 100%;
+        width: 100vw;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        border-right: 1px solid white;
+        padding: 5px;
+    }
+
+    .ActiveConversationCard {
+        display: flex;
+        justify-content: space-between;
+        color: white;
+        gap: 50px;
+        margin: 0px 0px;
+        box-sizing: border-box;
+        padding: 0px;
+        cursor: pointer;
+        background-color: transparent;
+        border-radius: 5px;
+    }
+
+    .ConversationCard:hover {
+        background-color: transparent;
+        cursor: pointer;
+        width: 100%;
+        border-radius: 5px;
+
+    }
+
+    .SearchArea {
+        width: 100%;
+        color: white;
+        border: 1px solid white;
+        height: 50px;
+        padding: 5px;
+        box-sizing: border-box;
+        display: flex;
+        margin-bottom: 10px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 10px;
+    }
+
+
+}
+
+@media (max-width: 600px) {
+    .ChatAreaSection {
+        display: none;
+    }
+
+    .ConversationCard:hover {
+        background-color: transparent;
+        cursor: pointer;
+        width: 100%;
+        border-radius: 5px;
+
+    }
+
+    .ChatsList {
+        height: 100%;
+        width: 100vw;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        border-right: 1px solid white;
+        padding: 5px;
+    }
+
+    .ActiveConversationCard {
+        display: flex;
+        justify-content: space-between;
+        color: white;
+        gap: 50px;
+        margin: 0px 0px;
+        box-sizing: border-box;
+        padding: 0px;
+        cursor: pointer;
+        background-color: transparent;
+        border-radius: 5px;
+    }
+}

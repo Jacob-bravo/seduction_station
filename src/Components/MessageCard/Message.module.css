@@ -1,0 +1,101 @@
+.Frame {
+    width: 100%;
+    color: white;
+}
+
+.SenderMessageCard {
+    width: 70vw;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ErrorMessage {
+    padding: 10px 0px;
+    margin: 5px 0px;
+}
+
+.ReceiverMessageCard {
+    width: 70vw;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.Message {
+    display: flex;
+    align-items: center;
+    align-self: flex-end;
+    background-color: #832bff;
+    width: fit-content;
+    box-sizing: content-box;
+    padding: 10px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.ReceiverMessage {
+    background-color: #CE53FF;
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    width: fit-content;
+    box-sizing: content-box;
+    padding: 10px;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.MessageTimestamp {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+@media (max-width: 1024px) {
+    .SenderMessageCard {
+        width: 98vw;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .ErrorMessage {
+        padding: 10px 0px;
+        margin: 5px 0px;
+    }
+
+    .ReceiverMessageCard {
+        width: 98vw;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+
+
+}
+
+@media (max-width: 600px) {
+    .SenderMessageCard {
+        width: 98vw;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .ErrorMessage {
+        padding: 10px 0px;
+        margin: 5px 0px;
+    }
+
+    .ReceiverMessageCard {
+        width: 98vw;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+}

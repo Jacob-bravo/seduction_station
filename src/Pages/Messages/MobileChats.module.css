@@ -1,0 +1,85 @@
+.Frame{
+    width: 100vw;
+    height: 100vh;
+}
+.ChatAreaSection {
+    height: 100%;
+    overflow: hidden;
+    width: 100vw;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+.ChatNavigation {
+    color: white;
+    display: flex;
+    box-sizing: border-box;
+    padding: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.More {
+    display: flex;
+    box-sizing: content-box;
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+
+.ChatUserDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.QuickActions {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+.MessagesArea {
+    margin-left: 3px;
+    height: 100%;
+    background-color: red;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
+.InputMessageArea {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 85%;
+    align-self: center;
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid white;
+    display: flex;
+    color: white;
+    padding: 0px 10px;
+    align-items: center;
+}
+.InputMessageArea input {
+    border: none;
+    outline: none;
+    padding-left: 8px;
+    width: 100%;
+    height: 40px;
+    color: white;
+    background-color: transparent;
+}
+.InputMessageArea input::placeholder {
+    color: white;
+}
+
+.ChatUserDetails span:nth-child(1) {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.ChatUserDetails span:nth-child(2) {
+    font-weight: normal;
+    font-size: 13px;
+}
