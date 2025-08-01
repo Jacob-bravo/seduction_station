@@ -1,0 +1,128 @@
+.Columns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.Title {
+    text-transform: capitalize;
+    color: black;
+    font-weight: bolder;
+    font-size: 25px;
+}
+
+.Inputs {
+    width: 100%;
+}
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.ErrorMessage {
+    display: flex;
+    align-self: flex-start;
+    color: red;
+}
+
+.inputfield {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+    flex-direction: column;
+    margin: 3px 0px;
+}
+
+.inputfield label {
+    color: black;
+    text-transform: capitalize;
+}
+
+.inputfield input {
+    height: 40px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding-left: 8px;
+}
+
+.passwordToggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding-right: 10px;
+    background-color: white;
+}
+
+.passwordToggle input {
+    outline: none;
+    border: none;
+    width: 100%;
+}
+
+.forgotPassword {
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+    color: white;
+    box-sizing: border-box;
+    margin-top: 10px;
+    padding-right: 5px;
+    transition: 3ms all ease;
+    cursor: pointer;
+}
+
+.loginButton {
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+
+}
+
+.SignUpNavigation {
+    color: white;
+    cursor: pointer;
+    margin: 5px 0px;
+    font-weight: 400;
+    transition: 3ms all ease;
+}
+
+.CreateAccount:hover {
+    border-bottom: 2px solid red;
+}
+
+@media screen and (max-width: 992px) {
+    .Frame {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        height: fit-content;
+        width: 90vw;
+    }
+
+    .forgotPassword {
+        display: flex;
+        flex-direction: row;
+        align-self: flex-end;
+        color: black;
+        box-sizing: border-box;
+        margin-top: 10px;
+        padding-right: 5px;
+        transition: 3ms all ease;
+        cursor: pointer;
+    }
+
+}

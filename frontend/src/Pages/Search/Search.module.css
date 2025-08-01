@@ -1,0 +1,132 @@
+.Frame{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    overflow: hidden;
+}
+.SearchArea{
+    width: 40%;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+.SearchArea input {
+    width: 100%;
+    outline: none;
+    height: 40px;
+    border: none;
+    padding-left: 10px;
+    color: white;
+    background-color: transparent;
+}
+
+.SearchArea input::placeholder {
+    color: white;
+}
+
+.SearchArea i:nth-child(1) {
+    padding-left: 8px;
+}
+
+.SearchArea i:nth-child(3) {
+    padding-right: 10px;
+    cursor: pointer;
+}
+.ModelsGrid {
+    box-sizing: border-box;
+    columns: 4 auto;
+    column-gap: 20px;
+    width: 100%;
+    padding: 20px;
+    color: white;
+    overflow-y: auto;
+}
+
+.ModelsCards {
+    cursor: pointer;
+    break-inside: avoid;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    color: white;
+}
+
+.Photo img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+
+}
+
+.details {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.details span:nth-child(1) {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.details span:nth-child(2) {
+    font-size: 14px;
+    font-weight: 400;
+    color: #d0d0d0;
+}
+
+.EngagementButton {
+    padding: 10px;
+}
+
+.EngagementButton button {
+    background-color: #ff4d4d;
+    color: white;
+    outline: none;
+    border: none;
+    padding: 8px 12px;
+    width: 100%;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.EngagementButton button:hover {
+    background-color: #e63737;
+}
+
+
+@media (max-width: 1024px) {
+    .ModelsGrid {
+        columns: 2 200px;
+    }
+.SearchArea{
+    width: 75%;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+ 
+}
+
+@media (max-width: 600px) {
+    .ModelsGrid {
+        columns: 1 100%;
+    }
+}

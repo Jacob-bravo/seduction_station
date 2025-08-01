@@ -1,0 +1,263 @@
+.Frame {
+    width: 100vw;
+    height: 100vh;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    position: relative;
+}
+
+.Photos,
+.Videos {
+    height: 100vh;
+    width: 60vw;
+}
+
+.Preview {
+    width: 30vw;
+    right: 0;
+    height: 100vh;
+    position: fixed;
+}
+
+.Preview img {
+    display: none;
+}
+
+.Photos img {
+    cursor: pointer;
+    margin: 10px;
+    height: auto;
+    width: 200px;
+    object-fit: contain;
+    border-radius: 20px;
+}
+
+.Videos video {
+    cursor: pointer;
+    margin: 10px;
+    height: auto;
+    width: 200px;
+    object-fit: contain;
+    border-radius: 20px;
+    background:
+        linear-gradient(rgb(61, 61, 61), rgb(0, 0, 0)) padding-box;
+    border: 1px solid transparent;
+}
+
+.BlurredPhoto {
+    filter: blur(35px);
+    opacity: 0.3;
+    transform: scale(0.95);
+}
+
+.Title {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.Title span:nth-child(2) {
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.ServicesTitle {
+    margin-top: 20px;
+    color: red;
+    font-weight: bolder;
+    font-size: 25px;
+}
+
+.Services,
+.PaymentMethods {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.service {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    width: 90%;
+    border-radius: 10px;
+    box-sizing: content-box;
+    padding: 10px;
+    cursor: pointer;
+    background-color: rgb(89, 95, 184);
+}
+
+.selectedservice {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    width: 90%;
+    border-radius: 10px;
+    box-sizing: content-box;
+    padding: 10px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.selectedservice,
+.service span:nth-child(2) {
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.servicePrice {
+    color: red;
+    font-weight: bolder;
+}
+
+.PaymentService {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.PaymentService div:nth-child(1) {
+    height: 10px;
+    width: 10px;
+    background-color: red;
+    border-radius: 50%;
+}
+
+.PhotoPreview {
+    position: fixed;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 60px;
+    width: 60px;
+    background-color: white;
+    border-radius: 50%;
+    overflow: hidden;
+    color: black;
+    cursor: pointer;
+    display: flex;
+    z-index: 9;
+    align-items: center;
+    justify-content: center;
+}
+
+.PhotoPreview img {
+    width: 90vw;
+    height: 90vh;
+    object-fit: contain;
+}
+
+.PhotoPreview video {
+    width: 90vw;
+    height: 90vh;
+    object-fit: contain;
+}
+
+.HidePhotoPreview {
+    display: none;
+}
+
+.Mobileservice {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .Frame {
+        width: 100vw;
+        height: 100vh;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        align-items: center;
+        justify-content: center;
+        overflow: auto;
+        position: relative;
+    }
+
+    .Mobileservice {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        font-size: 18px;
+        font-weight: bold;
+        width: 90%;
+        border-radius: 10px;
+        box-sizing: content-box;
+        padding: 10px;
+        cursor: pointer;
+        background-color: rgb(89, 95, 184);
+    }
+
+    .service,
+    .selectedservice {
+        display: none;
+    }
+
+    .Mobileservice span:nth-child(2) {
+        font-size: 13px;
+        font-weight: normal;
+    }
+
+    .Preview {
+        width: 95vw;
+        height: 100vh;
+        overflow: auto;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 0px;
+    }
+
+    .Photos {
+        display: none;
+    }
+
+    .Preview img {
+        display: block;
+    }
+
+    .Preview img {
+        height: auto;
+        width: 200px;
+        object-fit: cover;
+    }
+
+    .Preview .PaymentMethods {
+        margin-bottom: 100px;
+    }
+
+    .Preview .Services,
+    .Preview .PaymentMethods {
+        width: 100%;
+    }
+
+
+}
+
+@media (max-width: 600px) {}

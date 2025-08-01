@@ -1,0 +1,36 @@
+const express = require("express");
+const app = express();
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const path = require("path");
+
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204 
+};
+
+app.use(express.json());
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
+  next();
+});
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(morgan("common"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors(corsOptions));
+app.use(express.static(path.join(__dirname + "/public")));
+const errormiddleware = require("./middlewares/errors");
+
+const user = require("./routes/user");
+const chats = require("./routes/chats");
+
+app.use("/api/v1", user);
+app.use("/api/v1", chats);
+
+app.use(errormiddleware);
+module.exports = app;

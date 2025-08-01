@@ -1,0 +1,43 @@
+[debug] [2025-07-30T06:15:51.228Z] ----------------------------------------------------------------------
+[debug] [2025-07-30T06:15:51.233Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\jacob\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-07-30T06:15:51.233Z] CLI Version:   13.18.0
+[debug] [2025-07-30T06:15:51.233Z] Platform:      win32
+[debug] [2025-07-30T06:15:51.233Z] Node Version:  v20.10.0
+[debug] [2025-07-30T06:15:51.233Z] Time:          Wed Jul 30 2025 09:15:51 GMT+0300 (East Africa Time)
+[debug] [2025-07-30T06:15:51.233Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-07-30T06:15:51.309Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-07-30T06:15:51.309Z] > authorizing via signed-in user (seductionsecret363@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\project\seduction_station
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-07-30T06:15:55.188Z] Using project from CLI flag: seductionstation-dd680
+[debug] [2025-07-30T06:15:55.190Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/seductionstation-dd680 [none]
+[debug] [2025-07-30T06:15:55.934Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/seductionstation-dd680 403
+[debug] [2025-07-30T06:15:55.934Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/seductionstation-dd680 {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2025-07-30T06:15:55.935Z] HTTP Error: 403, The caller does not have permission
+[debug] [2025-07-30T06:15:56.368Z] FirebaseError: HTTP Error: 403, The caller does not have permission
+    at responseToError (C:\Users\jacob\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:49:12)
+    at RetryOperation._fn (C:\Users\jacob\AppData\Roaming\npm\node_modules\firebase-tools\lib\apiv2.js:305:77)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[error] 
+[error] Error: Failed to get Firebase project seductionstation-dd680. Please make sure the project exists and your account has permission to access it.
