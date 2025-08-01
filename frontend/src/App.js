@@ -24,7 +24,7 @@ function App() {
           <Route path='/profile' element={<Profile />} />
           <Route path='/search' element={<Search />} />
           <Route path="/model/:id" element={<Details />} />
-          <Route path="/model/media/:id" element={<MobileDetails />} />
+          <Route path="/model/media/:id/:index" element={<MobileDetails />} />
         </Route>
 
       </Routes>

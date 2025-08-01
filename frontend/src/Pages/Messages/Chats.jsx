@@ -1,14 +1,18 @@
 import React, { useState } from 'react'
 import css from "./Chats.module.css"
-import { Conversations, Messages } from '../../Data'
+import { Messages } from '../../Data'
 import Message from '../../Components/MessageCard/Message'
 import { useGetConversations } from '../../ReactQuery/queriesAndMutations'
+import { SendMessage, FetchMessages } from '../../ReactQuery/api'
 import dayjs from 'dayjs';
+import { toast } from "react-toastify";
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 const Chats = () => {
     const [model, setModel] = useState(null)
     const [lastSeen, setlastSeen] = useState("")
+    const [text, setText] = useState("");
+    const [conversationUuid, setconversationUuid] = useState("");
     const [messages, setMessages] = useState([])
     const {
         data,
@@ -30,6 +34,30 @@ const Chats = () => {
             </div>
         </div>
     }
+    const SendNewMessage = async () => {
+        try {
+            const response = await SendMessage(conversationUuid, text);
+            if (response.status === 201) {
+                setMessages(prev => [...prev, response.sentMessage]);
+                setText("");
+            } else {
+                toast(response.statusText);
+            }
+        } catch (error) {
+            toast(error.response?.data?.message || "Something went wrong");
+
+        }
+    }
+    const fetchMessages = async (conversationId) => {
+        try {
+            const response = await FetchMessages(conversationId);
+            setMessages(prev => [...prev, ...response.Messages]);
+        } catch (error) {
+            toast(error.response?.data?.message || "Something went wrong");
+        }
+    };
+
+
     return (
         <div className={css.Frame}>
             {/* Outer Row */}
@@ -38,7 +66,7 @@ const Chats = () => {
                 <div className={css.ChatsList}>
                     <div className={css.SearchArea}>
                         <i class="uil uil-search"></i>
-                        <input type="text" name="" id="" placeholder='Search' />
+                        <input type="text" name="" id="" placeholder='Search...' />
                         <i class="uil uil-trash-alt"></i>
 
                     </div>
@@ -52,7 +80,10 @@ const Chats = () => {
                                         index={index}
                                         onCardClicked={() => {
                                             setModel(otherMember);
-                                            setlastSeen(convo.updatedAt)
+                                            setlastSeen(convo.updatedAt);
+                                            setconversationUuid(convo.conversationUuid);
+                                            fetchMessages(convo.conversationUuid);
+
                                         }}
                                         profile={otherMember?.profile}
                                         username={otherMember?.name}
@@ -83,15 +114,22 @@ const Chats = () => {
                         </div>
                         <div className={css.MessagesArea}>
                             {
-                                Messages.map((text, index) => {
-                                    return <Message index={text.senderID} message={text.lastMessage} reaction={text.reaction} timestamp={text.timestamp} key={index} messageType={text.messageType} />
+                                messages && messages.map((text, index) => {
+                                    return <Message senderId={text.senderId} message={text.text} timestamp={text.createdAt} key={index} messageType={text.type} />
                                 })
                             }
                         </div>
                         <div className={css.InputMessageArea}>
                             <i class="uil uil-link-add"></i>
-                            <input type="text" placeholder='Your message' />
-                            <i class="uil uil-message"></i>
+                            <input
+                                type="text"
+                                placeholder="Your message"
+                                value={text}
+                                onChange={(e) => {
+                                    setText(e.target.value);
+                                }}
+                            />
+                            <i class="uil uil-message" onClick={() => SendNewMessage()}></i>
                         </div>
                     </div>
                 }

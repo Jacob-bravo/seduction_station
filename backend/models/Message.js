@@ -18,18 +18,22 @@ const MessageSchema = new mongoose.Schema({
   },
   fileText: {
     type: String,
+    default: ""
   },
   receiverFileText: {
     type: String,
   },
   caption: {
     type: String,
+    default: ""
   },
   thumbnail: {
     type: String,
+    default: ""
   },
   duration: {
     type: String,
+    default: ""
   },
   messageId: {
     type: String,
@@ -52,10 +56,8 @@ const MessageSchema = new mongoose.Schema({
     type: String,
   },
   createdAt: {
-    type: String,
-  },
-  updatedAt: {
-    type: String,
+    type: Date,
+    default: Date.now,
   },
 });
 

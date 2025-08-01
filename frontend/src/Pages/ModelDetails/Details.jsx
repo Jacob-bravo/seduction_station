@@ -22,8 +22,8 @@ const Details = () => {
             <span>{ServiceTagline} <span className={css.servicePrice}>${price}</span></span>
         </div>
     }
-    const HandleMobileViewNavigation = async (id, index) => {
-        if (id === 5) {
+    const HandleMobileViewNavigation = async (indexId, index) => {
+        if (indexId === 5) {
             setHasPaid(true);
             if (index === 0) {
                 setIsPhotos(true);
@@ -69,7 +69,7 @@ const Details = () => {
 
                 }
             } else {
-                navigate(`/model/media/${id}`)
+                navigate(`/model/media/${id}/${index}`)
             }
 
         }
@@ -158,7 +158,7 @@ const Details = () => {
                 <div className={css.Services}>
                     <span className={css.ServicesTitle}>Services:</span>
                     <ServiceCard className={isPhotos ? "selectedservice" : "service"} ServiceHeader={"Photos"} ServiceTagline={"High-quality personal photos. Price"} price={"10"} onClick={() => HandleMobileViewNavigation(5, 0)} />
-                    <ServiceCard className={"Mobileservice"} ServiceHeader={"Photos"} ServiceTagline={"High-quality personal photos. Price"} price={"10"} onClick={() => HandleMobileViewNavigation(0, 4)} />
+                    <ServiceCard className={"Mobileservice"} ServiceHeader={"Photos"} ServiceTagline={"High-quality personal photos. Price"} price={"10"} onClick={() => HandleMobileViewNavigation(0, 8)} />
                     <ServiceCard className={!isPhotos ? "selectedservice" : "service"} ServiceHeader={"Videos"} ServiceTagline={"Custom video content. Price:"} price={"20"} onClick={() => HandleMobileViewNavigation(5, 1)} />
                     <ServiceCard className={"Mobileservice"} ServiceHeader={"Videos"} ServiceTagline={"Custom video content. Price:"} price={"20"} onClick={() => HandleMobileViewNavigation(0, 4)} />
                     <ServiceCard className={"service"} ServiceHeader={"Sexting"} ServiceTagline={"Private text sessions. Price:"} price={"50"} onClick={() => HandleMobileViewNavigation(5, 3)} />

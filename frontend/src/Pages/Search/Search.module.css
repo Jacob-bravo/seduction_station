@@ -1,11 +1,12 @@
-.Frame{
+.Frame {
     display: flex;
     width: 100vw;
     height: 100vh;
     flex-direction: column;
     overflow: hidden;
 }
-.SearchArea{
+
+.SearchArea {
     width: 40%;
     margin-left: 20px;
     margin-top: 10px;
@@ -13,6 +14,7 @@
     border-radius: 10px;
     border: 1px solid white;
 }
+
 .SearchArea input {
     width: 100%;
     outline: none;
@@ -35,6 +37,7 @@
     padding-right: 10px;
     cursor: pointer;
 }
+
 .ModelsGrid {
     box-sizing: border-box;
     columns: 4 auto;
@@ -114,19 +117,36 @@
     .ModelsGrid {
         columns: 2 200px;
     }
-.SearchArea{
-    width: 75%;
-    margin-left: 20px;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    border-radius: 10px;
-    border: 1px solid white;
-}
- 
+
+    .SearchArea {
+        width: 75%;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        border-radius: 10px;
+        border: 1px solid white;
+    }
+
+    .Frame {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
 }
 
 @media (max-width: 600px) {
     .ModelsGrid {
         columns: 1 100%;
+    }
+
+    .Frame {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        flex-direction: column;
+        overflow: hidden;
     }
 }

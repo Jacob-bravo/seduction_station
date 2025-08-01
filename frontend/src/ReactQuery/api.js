@@ -156,4 +156,53 @@ export const FetchConversations = async () => {
     }
 
 }
+export const SendMessage = async (conversationUuid, message) => {
+    try {
+        const storedUser = localStorage.getItem('userData');
+        if (!storedUser) {
+            throw new Error("User not logged in");
+        }
+        const user = JSON.parse(storedUser);
+        const newMessage = {
+            conversationId: conversationUuid,
+            senderId: user._id,
+            type: "text",
+            text: message,
+            messageId: uuidv4(),
+        }
+        const data = { conversationUuid, newMessage };
+        const response = await axios.post('/api/v1/converstions/existing-conversation-newMessage', data);
 
+        if (response.status === 201) {
+            return {
+                sentMessage: response.data.newMessage,
+                status: response.status,
+                statusText: response.statusText,
+            };
+        }
+
+    } catch (error) {
+        return {
+            sentMessage: null,
+            status: error?.response?.status || 500,
+            statusText: error.response?.data?.message || "Something went wrong",
+        };
+    }
+
+}
+
+export const FetchMessages = async (conversationUuid) => {
+    try {
+        let link = `/api/v1/converstion/messages/${conversationUuid}`;
+        const { data } = await axios.get(link);
+        return data;
+    } catch (error) {
+        console.log(error);
+        return {
+            conversation: null,
+            status: error?.response?.status || 500,
+            statusText: error?.response?.data?.message || "Failed to create conversation",
+        };
+    }
+
+}

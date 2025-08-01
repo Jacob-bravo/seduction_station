@@ -3,8 +3,7 @@ const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const APIFeatures = require("../utils/apiFeatures");
 const Message = require("../models/Message");
 const Conversation = require("../models/Conversation");
-const User = require("../models/UserModel");
-const Model = require("../models/Models")
+
 
 
 
@@ -88,6 +87,7 @@ exports.postnewMessage = catchAsyncErrors(async (req, res, next) => {
       newMessage.isSent = true;
       await Message.create(newMessage);
       res.status(201).json({
+        newMessage,
         success: true,
         message: "Message Created Successfully"
       });
@@ -145,3 +145,20 @@ exports.getAllConversations = catchAsyncErrors(async (req, res, next) => {
   }
 })
 
+exports.fetchAllMessages = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const ConversationUuid = req.params.id;
+    console.log(ConversationUuid);
+    const Messages = await Message.find({ conversationId: ConversationUuid });
+    return res.status(200).json({
+      Messages,
+      message: "Request Success"
+    })
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+})

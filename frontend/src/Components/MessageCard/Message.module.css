@@ -15,8 +15,10 @@
     margin: 5px 0px;
 }
 
-.ReceiverMessageCard {
+.ReceiverMessageCard,
+.ErrorLoadingMessage {
     width: 70vw;
+    margin-left: 15px;
     display: flex;
     flex-direction: column;
     gap: 5px;

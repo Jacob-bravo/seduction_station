@@ -11,7 +11,7 @@ const LandingPage = () => {
             <div className={css.ImagesBackground}>
                 {
                     Model_Photos.map((image, index) => {
-                        return <img src={image} alt="model_photes" />
+                        return <img src={image} alt="model_photes" key={index} />
                     })
                 }
             </div>
