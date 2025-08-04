@@ -40,7 +40,7 @@ const Details = () => {
                     if (response.status === 201) {
                         navigate('/messages')
                     } else {
-                        // conversation exist navigate and toast
+                        navigate('/messages')
                     }
                 } catch (error) {
                     toast(error.response?.data?.message || "Something went wrong");

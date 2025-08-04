@@ -4,6 +4,7 @@ const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const APIFeatures = require("../utils/apiFeatures");
 const bcrypt = require('bcrypt');
+const UserModel = require("../models/UserModel");
 
 
 
@@ -122,9 +123,9 @@ exports.createNewModel = catchAsyncErrors(async (req, res, next) => {
 exports.getAllModels = catchAsyncErrors(async (req, res, next) => {
   try {
     const resPerPage = 30;
-    const modelsCount = await Model.countDocuments();
+    const modelsCount = await UserModel.countDocuments();
     const totalPages = Math.ceil(modelsCount / resPerPage);
-    const apiFeatures = new APIFeatures(Model.find(), req.query)
+    const apiFeatures = new APIFeatures(UserModel.find({ isModel: true }), req.query)
       .searchModel()
       .pagination(resPerPage);
     let Models = await apiFeatures.query;
@@ -135,7 +136,7 @@ exports.getAllModels = catchAsyncErrors(async (req, res, next) => {
       message: "Request Success"
     })
   } catch (error) {
- console.error(error);
+    console.error(error);
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -145,7 +146,7 @@ exports.getAllModels = catchAsyncErrors(async (req, res, next) => {
 
 exports.getModelById = catchAsyncErrors(async (req, res, next) => {
   try {
-    const model = await Model.findById(req.params.id);
+    const model = await UserModel.findById(req.params.id);
     if (!model) {
       return res.status(404).json({
         success: false,

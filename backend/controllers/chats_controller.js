@@ -124,18 +124,34 @@ exports.deleteMessage = catchAsyncErrors(async (req, res, next) => {
 exports.getAllConversations = catchAsyncErrors(async (req, res, next) => {
   try {
     const resPerPage = 30;
-    const ConversationCount = await Conversation.countDocuments();
+    const ConversationCount = await Conversation.countDocuments({
+      members: {
+        $elemMatch: {
+          userId: req.params.userId,
+        },
+      },
+    });
     const totalPages = Math.ceil(ConversationCount / resPerPage);
-    const apiFeatures = new APIFeatures(Conversation.find({ senderId: req.params.userId }), req.query)
+    const apiFeatures = new APIFeatures(
+      Conversation.find({
+        members: {
+          $elemMatch: {
+            userId: req.params.userId,
+          },
+        },
+      }),
+      req.query
+    )
       .search()
       .pagination(resPerPage);
-    let Conversations = await apiFeatures.query;
+
+    const Conversations = await apiFeatures.query;
     return res.status(200).json({
       count: Conversations.length,
       totalPages,
       Conversations,
-      message: "Request Success"
-    })
+      message: "Request Success",
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -143,7 +159,8 @@ exports.getAllConversations = catchAsyncErrors(async (req, res, next) => {
       message: "Internal Server Error",
     });
   }
-})
+});
+
 
 exports.fetchAllMessages = catchAsyncErrors(async (req, res, next) => {
   try {

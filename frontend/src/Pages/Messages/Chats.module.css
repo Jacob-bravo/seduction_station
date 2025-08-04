@@ -166,7 +166,7 @@
 .MessagesArea {
     box-sizing: border-box;
     height: 100%;
-    overflow: auto;
+    overflow-y: auto;
     color: white;
     display: flex;
     flex-direction: column;

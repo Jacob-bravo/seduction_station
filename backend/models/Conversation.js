@@ -17,10 +17,6 @@ const ConversationSchema = new mongoose.Schema({
       }
     },
   ],
-  senderId: {
-    type: String,
-    default: "",
-  },
   lastmessage: {
     type: String,
     default: "",

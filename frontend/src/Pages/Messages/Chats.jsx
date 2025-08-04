@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import css from "./Chats.module.css"
 import { Messages } from '../../Data'
 import Message from '../../Components/MessageCard/Message'
@@ -10,6 +10,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 const Chats = () => {
     const [model, setModel] = useState(null)
+    const containerRef = useRef(null);
     const [lastSeen, setlastSeen] = useState("")
     const [text, setText] = useState("");
     const [conversationUuid, setconversationUuid] = useState("");
@@ -19,6 +20,11 @@ const Chats = () => {
         error,
     } = useGetConversations();
     dayjs.extend(relativeTime);
+    const scrollToBottom = () => {
+        if (containerRef.current) {
+            containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        }
+    };
     const CardConversation = ({ profile, username, lastmessage, timestamp, onCardClicked }) => {
         const timeAgo = dayjs(timestamp).fromNow();
         return <div className={css.ConversationCard} onClick={onCardClicked}>
@@ -51,13 +57,15 @@ const Chats = () => {
     const fetchMessages = async (conversationId) => {
         try {
             const response = await FetchMessages(conversationId);
-            setMessages(prev => [...prev, ...response.Messages]);
+            setMessages(response.Messages);
         } catch (error) {
             toast(error.response?.data?.message || "Something went wrong");
         }
     };
 
-
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
     return (
         <div className={css.Frame}>
             {/* Outer Row */}
@@ -73,7 +81,12 @@ const Chats = () => {
                     <div className={css.Conversations}>
                         {
                             data && data.map((convo, index) => {
-                                const otherMember = convo.members[1];
+                                // to replace with firebase context
+                                const currentUser = JSON.parse(localStorage.getItem("userData"));
+                                const otherMember = convo.members.find(
+                                    member => member.userId !== currentUser._id
+                                );
+                                console.log(otherMember)
                                 return (
                                     <CardConversation
                                         key={index}
@@ -113,11 +126,20 @@ const Chats = () => {
                             </div>
                         </div>
                         <div className={css.MessagesArea}>
-                            {
-                                messages && messages.map((text, index) => {
-                                    return <Message senderId={text.senderId} message={text.text} timestamp={text.createdAt} key={index} messageType={text.type} />
-                                })
-                            }
+                            <div className={css.MessagesArea} ref={containerRef}>
+                                {messages
+                                    ?.slice()
+                                    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+                                    .map((text, index) => (
+                                        <Message
+                                            key={text._id || index}
+                                            senderId={text.senderId}
+                                            message={text.text}
+                                            timestamp={text.createdAt}
+                                            messageType={text.type}
+                                        />
+                                    ))}
+                            </div>
                         </div>
                         <div className={css.InputMessageArea}>
                             <i class="uil uil-link-add"></i>
@@ -127,6 +149,11 @@ const Chats = () => {
                                 value={text}
                                 onChange={(e) => {
                                     setText(e.target.value);
+                                }}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" && text.trim() !== "") {
+                                        SendNewMessage();
+                                    }
                                 }}
                             />
                             <i class="uil uil-message" onClick={() => SendNewMessage()}></i>

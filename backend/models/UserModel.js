@@ -7,6 +7,10 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  isModel: {
+    type: Boolean,
+    default: false,
+  },
   email: {
     type: String,
     unique: true,
@@ -24,11 +28,24 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Provide a username"],
     maxlength: [100, "Username Cannot excced 50 characters"],
   },
+  about: {
+    type: String,
+    default: "",
+    maxlength: [250, "about Cannot excced 50 characters"],
+  },
   profileimage: {
     type: String,
     default: "",
   },
   cart: {
+    type: Array,
+    default: [],
+  },
+  Photos: {
+    type: Array,
+    default: [],
+  },
+  Videos: {
     type: Array,
     default: [],
   },

@@ -30,7 +30,7 @@ const Profile = () => {
     }
     return (
         <div className={css.Frame}>
-        <div className={css.Profile}>
+            <div className={css.Profile}>
                 <div className={css.ProfileArea}>
                     <img src={profileImage} alt="userImage" className={css.ProfileImage} />
 
@@ -63,15 +63,15 @@ const Profile = () => {
                     />
                 </div>
                 {errors.username && <span className={css.Errors}>Username should be at least 6 characters</span>}
-                {/* Email Input */}
+                {/* Bio Input */}
                 <div className={css.inputGroup}>
                     <input
-                        type="email"
-                        placeholder="Email"
-                        {...register('email', { required: true, minLength: 50, })}
+                        type="text"
+                        placeholder="Your bio"
+                        {...register('biography', { required: true, minLength: 5 })}
                     />
                 </div>
-                {errors.email && <span className={css.Errors}>Please provide a valid email</span>}
+                {errors.username && <span className={css.Errors}>Bio should be at least 5 characters</span>}
 
                 <div className={css.inputGroup}>
                     <input
