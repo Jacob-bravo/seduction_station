@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import css from "./Login.module.css"
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 import { LoginTOAccount } from '../../ReactQuery/api';
 import { toast } from "react-toastify";
+import { AuthContext } from '../../AuthContext/AuthContext';
 
 
 const Login = ({ onClick }) => {
+    const { socket } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +19,7 @@ const Login = ({ onClick }) => {
     const onSubmit = async (data) => {
         setLoading(true);
         try {
-            const response = await LoginTOAccount(data.email, data.password);
+            const response = await LoginTOAccount(data.email, data.password, socket);
             if (response.status === 200) {
                 setLoading(false);
                 navigate('/home')

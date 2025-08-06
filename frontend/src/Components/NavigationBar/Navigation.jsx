@@ -2,12 +2,20 @@ import React from 'react'
 import css from "./Navigation.module.css"
 import { useNavigate } from 'react-router-dom'
 import { Links } from '../../Data'
+import { Logout } from '../../ReactQuery/api'
 
 const Navigation = () => {
     const navigate = useNavigate();
     const handleNavigation = (link) => {
         const newlink = link.toLowerCase();
-        navigate(`/${newlink}`);
+        if (newlink === "logout") {
+            Logout();
+            navigate("/");
+        } else {
+            navigate(`/${newlink}`);
+        }
+
+
     };
     return (
         <div className={css.Frame}>

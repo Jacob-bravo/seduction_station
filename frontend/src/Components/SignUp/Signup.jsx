@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import css from "./SignUp.module.css"
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 import { toast } from "react-toastify";
-import { CreateAccount, SendPasswordResetEmail, SignInToAccount } from '../../ReactQuery/api';
+import { CreateAccount, } from '../../ReactQuery/api';
+import { AuthContext } from '../../AuthContext/AuthContext';
 
 
 const SignUp = () => {
+    const { socket } = useContext(AuthContext);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -17,7 +19,7 @@ const SignUp = () => {
     const onSubmit = async (data) => {
         setLoading(true);
         try {
-            const response = await CreateAccount(data.text, data.email, data.password);
+            const response = await CreateAccount(data.text, data.email, data.password, socket);
             if (response.status === 201) {
                 toast(`Welcome ${data.text}`);
                 setLoading(false);

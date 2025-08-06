@@ -8,28 +8,71 @@ const UserModel = require("../models/UserModel");
 
 
 
+// Hashing passwords
+// exports.createNewUserAccount = catchAsyncErrors(async (req, res, next) => {
+//   try {
+//     const {
+//       username,
+//       profileimage,
+//       email,
+//       password,
+//       userUid,
+//     } = req.body;
+
+//     const existingUser = await User.findOne({ email: email })
+
+//     if (!existingUser) {
+//       const salt = await bcrypt.genSalt(10);
+//       const hashedPassword = await bcrypt.hash(password, salt);
+//       const newUser = new User({
+//         Uid: userUid,
+//         username,
+//         profileimage,
+//         email,
+//         password: hashedPassword
+//       });
+
+//       const user = await newUser.save();
+//       if (user._id) {
+//         return res.status(201).json({
+//           user,
+//           success: true,
+//           message: "Account Created Successfully",
+//         });
+//       }
+//     } else {
+//       return res.status(400).json({
+//         success: false,
+//         message: "This email already exists. Please login or request a password reset"
+//       })
+//     }
 
 
-
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Internal Server Error",
+//     });
+//   }
+// });
 exports.createNewUserAccount = catchAsyncErrors(async (req, res, next) => {
   try {
     const {
       username,
       profileimage,
       email,
-      password,
+      userUid,
     } = req.body;
 
     const existingUser = await User.findOne({ email: email })
 
     if (!existingUser) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(password, salt);
       const newUser = new User({
+        Uid: userUid,
         username,
         profileimage,
         email,
-        password: hashedPassword
       });
 
       const user = await newUser.save();
@@ -61,23 +104,15 @@ exports.LoginExistingUser = catchAsyncErrors(async (req, res, next) => {
   try {
     const {
       email,
-      password
+      uid
     } = req.body;
 
-    const user = await User.findOne({ email: email }).select('+password');
+    const user = await User.findOne({ email: email, Uid: uid }).select('+password');
 
     if (!user) {
       return res.status(401).json({
         success: false,
         message: "Invalid credentials (email not found)",
-      });
-    }
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid credentials (password mismatch)",
       });
     }
     return res.status(200).json({
@@ -167,3 +202,106 @@ exports.getModelById = catchAsyncErrors(async (req, res, next) => {
     });
   }
 })
+exports.getUserUid = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const user = await UserModel.findOne({ Uid: req.params.uid });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Model not Found"
+      })
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Model Found",
+      user
+    })
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+})
+
+exports.UploadMedia = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { uid, profileimage, username, about } = req.body;
+
+    if (!uid) {
+      return res.status(400).json({
+        success: false,
+        message: "UID is required",
+      });
+    }
+
+    // Prepare the update object dynamically
+    const updateData = {};
+    if (profileimage !== undefined) updateData.profileimage = profileimage;
+    if (username !== undefined) updateData.username = username;
+    if (about !== undefined) updateData.about = about;
+
+    const user = await UserModel.findOneAndUpdate(
+      { Uid: uid },
+      { $set: updateData },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+});
+
+exports.AddUserMedia = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { uid, isPhotos, Photos, Videos } = req.body;
+    const user = await User.findOne({ Uid: uid });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    if (isPhotos) {
+      if (Photos) {
+        user.Photos.push(Photos);
+      }
+    } else {
+      if (Videos) {
+        user.Videos.push(Videos);
+      }
+    }
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Media added successfully",
+      user,
+    });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+});

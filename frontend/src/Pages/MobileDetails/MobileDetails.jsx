@@ -89,16 +89,16 @@ const MobileDetails = () => {
                 </div>
             }
             <div className={css[previewPhotoClassname]}>
-                <div className={css.Close} onClick={() => {
+                {photoUrl && <div className={css.Close} onClick={() => {
                     setpreviewPhotoClassname("HidePhotoPreview");
+                    setPhotoUrl("")
                 }}>
                     <i class="uil uil-multiply"></i>
-                </div>
+                </div>}
                 {
                     isPhotos ? <img src={photoUrl} alt="DefaulPhotoUrlView" /> : <video
                         src={photoUrl}
                         autoPlay
-                        loop
                         playsInline
                         preload="metadata"
                         controls

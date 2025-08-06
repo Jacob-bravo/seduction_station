@@ -3,22 +3,27 @@ import css from "./ForgotPass.module.css";
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../AuthContext/AuthContext';
+import { SendPasswordResetEmail } from '../../ReactQuery/api';
+import { toast } from 'react-toastify';
 
 const ForgotPass = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { user, isLoading } = useContext(AuthContext);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
     const navigate = useNavigate();
-    const onSubmit = () => {
-        // Submit name and password here
+    const onSubmit = async (data) => {
+        setLoading(true);
         try {
-            navigate("/home");
+            await SendPasswordResetEmail(data.email);
+            setLoading(false);
         } catch (error) {
-
-        }
+            setLoading(false);
+            toast(error.message)
+        };
     }
 
     return (
@@ -26,13 +31,9 @@ const ForgotPass = () => {
             <form className={css.Inputs} onSubmit={handleSubmit(onSubmit)}>
                 <div className={css.inputfield}>
                     <label htmlFor="Email">Email</label>
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        {...register('email', { required: true, minLength: 50, })}
-                    />
+                    <input type="email" placeholder="Email" {...register('email', { required: true })} />
                 </div>
-                {errors.email && <span className={css.ErrorMessage}>Please provide a valid email</span>}
+                {errors.password && <span className={css.ErrorMessage}>Password should be at least 6 characters</span>}
                 <button type='submit' className={css.loginButton}>Reset Password</button>
             </form>
 

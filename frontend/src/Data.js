@@ -246,7 +246,7 @@ export const Links = [
     },
     {
         link: "Logout",
-        navigation: "",
+        navigation: "logout",
         icon: <i class="uil uil-signout"></i>
     },
 

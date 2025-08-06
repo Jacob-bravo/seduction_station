@@ -1,98 +1,303 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import css from "./Profile.module.css"
 import { useForm } from 'react-hook-form';
 import ImageOne from "../../Images/photo1.jpg"
+import { updateUser, uploadMediaToFirebase, FetchModel } from '../../ReactQuery/api';
+import { AuthContext } from "../../AuthContext/AuthContext"
 
 const Profile = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [showPassword, setShowPassword] = useState(false);
+    const { user, isLoading } = useContext(AuthContext);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [isProfile, setIsProfile] = useState(false);
+    const [photoUrl, setPhotoUrl] = useState(ImageOne)
+    const [previewPhotoClassname, setpreviewPhotoClassname] = useState("HidePhotoPreview")
     const [profileImage, setProfileImage] = useState(ImageOne);
+    const [uploadFile, setuploadFile] = useState("");
+    const [uploadFirebaseFile, setuploadFirebaseFile] = useState(null);
+    const [previewFile, setPreviewFile] = useState(null);
+    const [profileToUpdate, setprofileToUpdate] = useState(null);
+    const [userPhotos, setuserPhotos] = useState([]);
+    const [userVideos, setuserVideos] = useState([]);
+    const [isPhotos, setIsPhotos] = useState(true);
+    const mediaFileInputRef = useRef(null);
     const fileInputRef = useRef(null);
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
             const imageURL = URL.createObjectURL(file);
             setProfileImage(imageURL);
+            setprofileToUpdate(file);
+            setIsProfile(true)
         }
     };
+
     const triggerFileInput = () => {
         fileInputRef.current.click();
     };
-    const onSubmit = () => {
+    const onSubmit = async (data, event) => {
+        const action = event.nativeEvent.submitter.value;
+
         try {
+            if (action === "update") {
+                await updateUser(profileToUpdate, data.username, data.biography);
+            } else if (action === "delete") {
+                // 👉 Call delete endpoint
+                console.log("Deleting account...");
+                // await axios.delete(`/api/delete/${userId}`);
+            }
+        } catch (error) {
+            console.error("Something went wrong:", error);
+        }
+    };
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            if (user) {
+                try {
+                    const userDetails = await FetchModel(user._id);
+                    setProfileImage(userDetails.model.profileimage);
+                    setuserPhotos(userDetails.model.Photos);
+                    setuserVideos(userDetails.model.Videos);
+                } catch (err) {
+                    console.error("Failed to fetch user details:", err);
+                }
+            }
+        };
+
+        fetchUserDetails();
+    }, [user]);
+
+
+    const handleClickAddMedia = () => {
+        mediaFileInputRef.current?.click();
+    };
+
+    const handleMediaFileSelect = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const imageURL = URL.createObjectURL(file);
+        setuploadFile(imageURL);
+        setPreviewFile('flex')
+        setuploadFirebaseFile(file)
+        try {
+        } catch (err) {
+            console.error("Upload error:", err);
+        }
+    };
+    const handleUpload = async () => {
+        try {
+            const url = await uploadMediaToFirebase(
+                uploadFirebaseFile,
+                user.Uid,
+                isPhotos,
+                (progress) => {
+                    setUploadProgress(progress);
+                }
+            );
+
+            setPreviewFile(null);
+
+            // 🔁 Delay user data fetch by 5 seconds (5000ms)
+            setTimeout(async () => {
+                try {
+                    const userDetails = await FetchModel(user._id);
+                    setuserPhotos(userDetails.model.Photos);
+                    setuserVideos(userDetails.model.Videos);
+                    setProfileImage(userDetails.model.profileimage);
+                    console.log("User data refreshed after upload.");
+                } catch (err) {
+                    console.error("Failed to fetch user details:", err);
+                }
+            }, 5000); // 5 seconds delay
 
         } catch (error) {
-
+            console.error("Upload failed:", error);
         }
+    };
+
+    if (isLoading) {
+        return <span>loading...</span>
     }
     return (
         <div className={css.Frame}>
-            <div className={css.Profile}>
-                <div className={css.ProfileArea}>
-                    <img src={profileImage} alt="userImage" className={css.ProfileImage} />
+            <div className={css.MobileRow}>
+                <div className={css.Profile}>
+                    <div className={css.ProfileArea}>
+                        <img src={profileImage} alt="userImage" className={css.ProfileImage} />
 
-                    <div className={css.EditButton} onClick={triggerFileInput}>
-                        <i className="uil uil-camera-change"></i>
+                        <div className={css.EditButton} onClick={triggerFileInput}>
+                            <i className="uil uil-camera-change"></i>
+                        </div>
+
+                        {/* Hidden File Input */}
+                        <input
+                            type="file"
+                            accept="image/*"
+                            ref={fileInputRef}
+                            onChange={handleImageChange}
+                            style={{ display: 'none' }}
+                        />
                     </div>
 
-                    {/* Hidden File Input */}
-                    <input
-                        type="file"
-                        accept="image/*"
-                        ref={fileInputRef}
-                        onChange={handleImageChange}
-                        style={{ display: 'none' }}
-                    />
+                    <div className={css.UserProfilesDetails}>
+                        <span>{user.username}</span>
+                        <span>{user.email}</span>
+                    </div>
                 </div>
 
-                <div className={css.UserProfilesDetails}>
-                    <span>John Doe</span>
-                    <span>JohnDoe@gmail.com</span>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className={css.inputGroup}>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            {...register('username', { required: true, minLength: 6 })}
+                        />
+                    </div>
+                    {errors.username && <span className={css.Errors}>Username should be at least 6 characters</span>}
+                    {/* Bio Input */}
+                    <div className={css.inputGroup}>
+                        <input
+                            type="text"
+                            value={user.about}
+                            placeholder="Your bio"
+                            {...register('biography', { required: true, minLength: 5 })}
+                        />
+                    </div>
+                    {errors.username && <span className={css.Errors}>Bio should be at least 5 characters</span>}
+                    <button
+                        type="submit"
+                        name="action"
+                        value="update"
+                        className={css.UpdateProfile}
+                    >
+                        Update Account
+                    </button>
+
+                    <button
+                        type="submit"
+                        name="action"
+                        value="delete"
+                    >
+                        Delete Account
+                    </button>
+                </form>
+            </div>
+            <div className={css.MediaFiles}>
+                <div className={css.Tabs}>
+                    <button
+                        className={isPhotos ? css.active : ""}
+                        onClick={() => setIsPhotos(true)}
+                    >
+                        Photos
+                    </button>
+                    <button
+                        className={!isPhotos ? css.active : ""}
+                        onClick={() => setIsPhotos(false)}
+                    >
+                        Videos
+                    </button>
+                    <div
+                        className={`${css.MediaItem} ${css.AddItem}`}
+                        onClick={handleClickAddMedia}
+                    >
+                        <input
+                            type="file"
+                            accept={isPhotos ? "image/*" : "video/*"}
+                            style={{ display: "none" }}
+                            ref={mediaFileInputRef}
+                            onChange={handleMediaFileSelect}
+                        />
+                        <span>＋</span>
+
+                    </div>
+                </div>
+
+                <div className={css.Grid}>
+                    {/* Add button block */}
+
+                    {
+                        isPhotos ? <div className={css.Photos}>
+                            {
+                                userPhotos.map((model, index) => {
+
+                                    return (
+                                        <img
+                                            key={index}
+                                            src={model.url}
+                                            alt="modelphoto"
+                                            className={css.activePhoto}
+                                            onClick={() => {
+
+                                                setpreviewPhotoClassname("PhotoPreview");
+                                                setPhotoUrl(model.url);
+
+                                            }}
+                                        />
+                                    );
+                                })
+                            }
+
+                        </div> : <div className={css.Videos}>
+                            {
+                                userVideos.map((video, index) => {
+                                    return (
+                                        <video
+                                            key={index}
+                                            src={video.url}
+                                            className={css.activePhoto}
+                                            onClick={() => {
+
+                                                setpreviewPhotoClassname("PhotoPreview");
+                                                setPhotoUrl(video.url);
+
+                                            }}
+                                            muted
+                                            loop
+                                            playsInline
+                                            preload="metadata"
+                                            onMouseEnter={e => e.currentTarget.play()}
+                                            onMouseLeave={e => e.currentTarget.pause()}
+                                        />
+                                    );
+                                })
+                            }
+                        </div>
+                    }
+
                 </div>
             </div>
-
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className={css.inputGroup}>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        {...register('username', { required: true, minLength: 6 })}
+            <div className={css[previewPhotoClassname]}>
+                {photoUrl && <div className={css.Close} onClick={() => {
+                    setpreviewPhotoClassname("HidePhotoPreview");
+                }}>
+                    <i class="uil uil-multiply"></i>
+                </div>}
+                {
+                    isPhotos ? <img src={photoUrl} alt="DefaulPhotoUrlView" /> : <video
+                        src={photoUrl}
+                        autoPlay
+                        loop
+                        playsInline
+                        preload="metadata"
+                        controls
+                        controlsList="nodownload"
+                        onContextMenu={e => e.preventDefault()}
                     />
+                }
+
+            </div>
+            <div className={css.PreviewUploadFile}
+                style={{ display: previewFile ? 'flex' : 'none' }}
+            >
+                {
+                    isPhotos ? <img src={uploadFile} alt="uploadfile" /> : <video src={uploadFile} controls width="100%" />
+                }
+
+                <div className={css.ActionButtons}>
+                    <button onClick={() => handleUpload()}>Upload</button>
+                    <button onClick={() => setPreviewFile(null)}>Discard</button>
                 </div>
-                {errors.username && <span className={css.Errors}>Username should be at least 6 characters</span>}
-                {/* Bio Input */}
-                <div className={css.inputGroup}>
-                    <input
-                        type="text"
-                        placeholder="Your bio"
-                        {...register('biography', { required: true, minLength: 5 })}
-                    />
-                </div>
-                {errors.username && <span className={css.Errors}>Bio should be at least 5 characters</span>}
-
-                <div className={css.inputGroup}>
-                    <input
-                        type={showPassword ? 'text' : 'password'}
-                        placeholder="Password"
-                        {...register('password', { required: true, minLength: 6 })}
-                    />
-                    <div className={css.iconRight} onClick={togglePasswordVisibility}>
-                        {
-                            showPassword ? <i class="uil uil-eye-slash"></i> : <i class="uil uil-eye"></i>
-                        }
-                    </div>
-
-                </div>
-                {errors.password && <span className={css.Errors}>Password should be at least 6 characters</span>}
-
-
-                <button type='submit' className={css.UpdateProfile}>Update Account</button>
-                <button type='submit'>Delete Account</button>
-            </form>
-
+            </div>
         </div>
     )
 }

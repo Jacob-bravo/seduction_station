@@ -20,7 +20,7 @@ function App() {
         <Route element={<Layout />}>
           <Route path='/home' element={<Homepage />} />
           <Route path='/messages' element={<Chats />} />
-          <Route path='/messages/index' element={<MobileChats />} />
+          <Route path='/messages/:conversationId/:username' element={<MobileChats />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/search' element={<Search />} />
           <Route path="/model/:id" element={<Details />} />

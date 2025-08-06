@@ -66,7 +66,7 @@ exports.postnewMessage = catchAsyncErrors(async (req, res, next) => {
 
       let lastmessage;
 
-      if (newMessage.type === "image") {
+      if (newMessage.type === "photo") {
         lastmessage = "📷 Photo";
       } else if (newMessage.type === "video") {
         lastmessage = "🎥 video";
