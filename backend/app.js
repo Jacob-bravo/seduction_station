@@ -41,6 +41,7 @@ app.use(
         "https://maps.googleapis.com",
         "https://firebasestorage.googleapis.com",
         "https://identitytoolkit.googleapis.com",
+        "https://securetoken.googleapis.com",
         "https://api-m.sandbox.paypal.com",
         "https://api-m.paypal.com",
 
