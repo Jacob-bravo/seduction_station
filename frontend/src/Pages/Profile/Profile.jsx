@@ -38,16 +38,21 @@ const Profile = () => {
     };
     const onSubmit = async (data, event) => {
         const action = event.nativeEvent.submitter.value;
-
+        setisuploadingLoading(true);
         try {
             if (action === "update") {
-                await updateUser(profileToUpdate, data.username, data.biography);
+                const response = await updateUser(profileToUpdate, data.username, data.biography);
+                if (response.status === 200) {
+                    setisuploadingLoading(false);
+                }
             } else if (action === "delete") {
                 console.log("Deleting account...");
                 // await axios.delete(`/api/delete/${userId}`);
+                setisuploadingLoading(false);
             }
         } catch (error) {
             console.error("Something went wrong:", error);
+            setisuploadingLoading(false);
         }
     };
 
@@ -161,7 +166,7 @@ const Profile = () => {
 
                     <div className={css.UserProfilesDetails}>
                         <span>{user.username}</span>
-                        <span>{user.email}</span>
+                        <span>{user.about.length === 0 ? "Your about goes here" : user.about}</span>
                     </div>
                 </div>
 
@@ -170,7 +175,7 @@ const Profile = () => {
                         <input
                             type="text"
                             placeholder="Username"
-                            {...register('username', { required: true, minLength: 6 })}
+                            {...register('username', { required: true, })}
                         />
                     </div>
                     {errors.username && <span className={css.Errors}>Username should be at least 6 characters</span>}
@@ -178,9 +183,8 @@ const Profile = () => {
                     <div className={css.inputGroup}>
                         <input
                             type="text"
-                            value={user.about}
                             placeholder="Your bio"
-                            {...register('biography', { required: true, minLength: 5 })}
+                            {...register('biography', { required: true, })}
                         />
                     </div>
                     {errors.username && <span className={css.Errors}>Bio should be at least 5 characters</span>}
