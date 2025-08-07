@@ -8,7 +8,7 @@ import Loadingwidget from '../../Components/Loadingwidget/Loadingwidget';
 
 const Profile = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { user, isLoading } = useContext(AuthContext);
+    const [user, setUser] = useState(null);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isProfileLoading, setisLoading] = useState(true);
     const [isuploadingLoading, setisuploadingLoading] = useState(false);
@@ -50,12 +50,17 @@ const Profile = () => {
             console.error("Something went wrong:", error);
         }
     };
+
     useEffect(() => {
+        const storedUser = localStorage.getItem("userData");
+
         const fetchUserDetails = async () => {
-            if (user) {
+            if (storedUser) {
+                const userData = JSON.parse(storedUser);
                 try {
                     setisLoading(true);
-                    const userDetails = await FetchModel(user._id);
+                    const userDetails = await FetchModel(userData._id);
+                    setUser(userDetails.model);
                     setProfileImage(userDetails.model.profileimage);
                     setuserPhotos(userDetails.model.Photos);
                     setuserVideos(userDetails.model.Videos);
@@ -67,7 +72,7 @@ const Profile = () => {
         };
 
         fetchUserDetails();
-    }, [user]);
+    }, []);
 
 
     const handleClickAddMedia = () => {
@@ -116,7 +121,7 @@ const Profile = () => {
             console.error("Upload failed:", error);
         }
     };
-    if (isLoading || isProfileLoading) {
+    if (isProfileLoading) {
         return <Loadingwidget />
     }
     const UploadProgress = () => {
