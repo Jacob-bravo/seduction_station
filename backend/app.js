@@ -10,7 +10,7 @@ const corsOptions = {
   origin: 'http://localhost:3000',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
-  optionsSuccessStatus: 204 
+  optionsSuccessStatus: 204
 };
 
 app.use(express.json());
@@ -40,6 +40,7 @@ app.use(
         "https://seduction-station.onrender.com",
         "https://maps.googleapis.com",
         "https://firebasestorage.googleapis.com",
+        "https://identitytoolkit.googleapis.com",
       ],
       "frame-ancestors": ["'self'"],
     },
