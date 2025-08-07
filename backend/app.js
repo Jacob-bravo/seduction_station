@@ -41,9 +41,14 @@ app.use(
         "https://maps.googleapis.com",
         "https://firebasestorage.googleapis.com",
         "https://identitytoolkit.googleapis.com",
-        "https://api-m.sandbox.paypal.com", 
+        "https://api-m.sandbox.paypal.com",
         "https://api-m.paypal.com",
 
+      ],
+      "media-src": [
+        "'self'",
+        "blob:",
+        "https://firebasestorage.googleapis.com"
       ],
       "frame-ancestors": ["'self'"],
     },
