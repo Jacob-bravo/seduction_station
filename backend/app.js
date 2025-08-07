@@ -18,7 +18,33 @@ app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
   next();
 });
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "script-src": [
+        "'self'",
+        "https://whitelisted-domain.com",
+      ],
+      "img-src": [
+        "'self'",
+        "https:",
+        "data:",
+        "maps.gstatic.com",
+        "*.googleapis.com",
+        "*.ggpht.com",
+        "blob:",
+      ],
+      "connect-src": [
+        "'self'",
+        "https://seduction-station.onrender.com",
+        "https://maps.googleapis.com",
+        "https://firebasestorage.googleapis.com",
+      ],
+      "frame-ancestors": ["'self'"],
+    },
+  })
+);
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
