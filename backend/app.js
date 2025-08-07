@@ -52,10 +52,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors(corsOptions));
 app.use(express.static(path.join(__dirname + "/public")));
 const errormiddleware = require("./middlewares/errors");
-
 const user = require("./routes/user");
 const chats = require("./routes/chats");
 const payments = require("./routes/payment");
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 app.use("/api/v1", user);
 app.use("/api/v1", chats);
