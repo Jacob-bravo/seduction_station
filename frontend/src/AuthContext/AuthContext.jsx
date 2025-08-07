@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (authUser) => {
       if (authUser) {
-        const newSocket = io("http://localhost:4000"); 
+        const newSocket = io("https://seduction-station.onrender.com"); 
         setSocket(newSocket);
         const userId = authUser.uid;
         let userData = null;
