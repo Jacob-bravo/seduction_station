@@ -1,8 +1,8 @@
 import React from 'react'
 import css from "./Homepage.module.css"
-import { Model_Details } from '../../Data'
 import { useNavigate } from "react-router-dom";
 import { useGetModels } from '../../ReactQuery/queriesAndMutations';
+import Loader from '../LoadingScreen/Loader';
 
 
 const Homepage = () => {
@@ -10,8 +10,12 @@ const Homepage = () => {
     const {
         data,
         error,
+        isLoading
     } = useGetModels();
 
+    if (isLoading) {
+        return <Loader />
+    }
 
     const goToDetails = (id) => {
         navigate(`/model/${id}`);
@@ -35,7 +39,7 @@ const Homepage = () => {
             <div className={css.ModelsGrid}>
                 {
                     data && data.map((model, index) => {
-                        return <Card _id={model._id} image={model.profileimage} username={model.username} bio={model.about} key={index}  />
+                        return <Card _id={model._id} image={model.profileimage} username={model.username} bio={model.about} key={index} />
                     })
                 }
             </div>

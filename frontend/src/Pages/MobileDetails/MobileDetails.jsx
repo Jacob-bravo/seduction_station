@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import css from "./MobileDetails.module.css"
 import { useParams } from "react-router-dom";
 import { Model_Photos } from '../../Data'
-import { FetchModel } from '../../ReactQuery/api';
+import { FetchModel, CheckPaidStatus } from '../../ReactQuery/api';
 import { toast } from "react-toastify";
+import Loadingwidget from '../../Components/Loadingwidget/Loadingwidget';
 
 const MobileDetails = () => {
     const { id, index } = useParams();
     const [model, setModel] = useState({});
+    const [isLoading, setisLoading] = useState(true);
     const [isPhotos, setIsPhotos] = useState(Number(index) === 8);
     const [modelPhotos, setmodelPhotos] = useState([]);
     const [modelVideos, setmodelVideos] = useState([]);
@@ -15,6 +17,7 @@ const MobileDetails = () => {
     const [previewPhotoClassname, setpreviewPhotoClassname] = useState("HidePhotoPreview")
     const [hasPaid, setHasPaid] = useState(true)
     useEffect(() => {
+        setisLoading(true);
         const fetchUserData = async () => {
             try {
                 const response = await FetchModel(id);
@@ -22,18 +25,31 @@ const MobileDetails = () => {
                     setModel(response.model);
                     setmodelPhotos(response.model.Photos);
                     setmodelVideos(response.model.Videos);
+                    setisLoading(false);
                 }
             } catch (error) {
                 toast(error.response?.data?.message || "Something went wrong");
             }
         }
+        const fetchPaidStatusData = async () => {
+            try {
+                const response = await CheckPaidStatus(id);
+                if (response.status === 200) {
+                    setHasPaid(response.hasPaid);
+                    setisLoading(false);
+                }
+            } catch (error) {
+                toast(error.response?.data?.message || "Something went wrong");
+                setisLoading(true);
+            }
+        }
         fetchUserData();
+        fetchPaidStatusData();
     }, [id])
 
-    if (model === null && modelPhotos.length === 0 && modelVideos.length === 0) {
-        return <span>Loading....</span>
+    if (isLoading) {
+        return <Loadingwidget />
     }
-
     return (
         <div className={css.Frame}>
             <span>{model.username}</span>

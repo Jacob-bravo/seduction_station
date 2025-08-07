@@ -28,9 +28,11 @@ const errormiddleware = require("./middlewares/errors");
 
 const user = require("./routes/user");
 const chats = require("./routes/chats");
+const payments = require("./routes/payment");
 
 app.use("/api/v1", user);
 app.use("/api/v1", chats);
+app.use("/api/v1", payments);
 
 app.use(errormiddleware);
 module.exports = app;

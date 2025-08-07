@@ -4,12 +4,14 @@ import { useForm } from 'react-hook-form';
 import ImageOne from "../../Images/photo1.jpg"
 import { updateUser, uploadMediaToFirebase, FetchModel } from '../../ReactQuery/api';
 import { AuthContext } from "../../AuthContext/AuthContext"
+import Loadingwidget from '../../Components/Loadingwidget/Loadingwidget';
 
 const Profile = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { user, isLoading } = useContext(AuthContext);
     const [uploadProgress, setUploadProgress] = useState(0);
-    const [isProfile, setIsProfile] = useState(false);
+    const [isProfileLoading, setisLoading] = useState(true);
+    const [isuploadingLoading, setisuploadingLoading] = useState(false);
     const [photoUrl, setPhotoUrl] = useState(ImageOne)
     const [previewPhotoClassname, setpreviewPhotoClassname] = useState("HidePhotoPreview")
     const [profileImage, setProfileImage] = useState(ImageOne);
@@ -28,7 +30,6 @@ const Profile = () => {
             const imageURL = URL.createObjectURL(file);
             setProfileImage(imageURL);
             setprofileToUpdate(file);
-            setIsProfile(true)
         }
     };
 
@@ -42,7 +43,6 @@ const Profile = () => {
             if (action === "update") {
                 await updateUser(profileToUpdate, data.username, data.biography);
             } else if (action === "delete") {
-                // 👉 Call delete endpoint
                 console.log("Deleting account...");
                 // await axios.delete(`/api/delete/${userId}`);
             }
@@ -54,10 +54,12 @@ const Profile = () => {
         const fetchUserDetails = async () => {
             if (user) {
                 try {
+                    setisLoading(true);
                     const userDetails = await FetchModel(user._id);
                     setProfileImage(userDetails.model.profileimage);
                     setuserPhotos(userDetails.model.Photos);
                     setuserVideos(userDetails.model.Videos);
+                    setisLoading(false);
                 } catch (err) {
                     console.error("Failed to fetch user details:", err);
                 }
@@ -86,6 +88,7 @@ const Profile = () => {
     };
     const handleUpload = async () => {
         try {
+            setisuploadingLoading(true);
             const url = await uploadMediaToFirebase(
                 uploadFirebaseFile,
                 user.Uid,
@@ -97,27 +100,39 @@ const Profile = () => {
 
             setPreviewFile(null);
 
-            // 🔁 Delay user data fetch by 5 seconds (5000ms)
             setTimeout(async () => {
                 try {
                     const userDetails = await FetchModel(user._id);
                     setuserPhotos(userDetails.model.Photos);
                     setuserVideos(userDetails.model.Videos);
                     setProfileImage(userDetails.model.profileimage);
-                    console.log("User data refreshed after upload.");
+                    setisuploadingLoading(false);
                 } catch (err) {
                     console.error("Failed to fetch user details:", err);
                 }
-            }, 5000); // 5 seconds delay
+            }, 3000);
 
         } catch (error) {
             console.error("Upload failed:", error);
         }
     };
-
-    if (isLoading) {
-        return <span>loading...</span>
+    if (isLoading || isProfileLoading) {
+        return <Loadingwidget />
     }
+    const UploadProgress = () => {
+        return (
+            <div className={css.wrapper}>
+                <div className={css.glass}>
+                    <div className={css.progressBar}>
+                        <div
+                            className={css.progress}
+                            style={{ width: `${uploadProgress}%` }}
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        );
+    };
     return (
         <div className={css.Frame}>
             <div className={css.MobileRow}>
@@ -212,59 +227,61 @@ const Profile = () => {
                     </div>
                 </div>
 
-                <div className={css.Grid}>
-                    {/* Add button block */}
+                {
+                    isuploadingLoading ? <Loadingwidget /> : <div className={css.Grid}>
+                        {/* Add button block */}
 
-                    {
-                        isPhotos ? <div className={css.Photos}>
-                            {
-                                userPhotos.map((model, index) => {
+                        {
+                            isPhotos ? <div className={css.Photos}>
+                                {
+                                    userPhotos.map((model, index) => {
 
-                                    return (
-                                        <img
-                                            key={index}
-                                            src={model.url}
-                                            alt="modelphoto"
-                                            className={css.activePhoto}
-                                            onClick={() => {
+                                        return (
+                                            <img
+                                                key={index}
+                                                src={model.url}
+                                                alt="modelphoto"
+                                                className={css.activePhoto}
+                                                onClick={() => {
 
-                                                setpreviewPhotoClassname("PhotoPreview");
-                                                setPhotoUrl(model.url);
+                                                    setpreviewPhotoClassname("PhotoPreview");
+                                                    setPhotoUrl(model.url);
 
-                                            }}
-                                        />
-                                    );
-                                })
-                            }
+                                                }}
+                                            />
+                                        );
+                                    })
+                                }
 
-                        </div> : <div className={css.Videos}>
-                            {
-                                userVideos.map((video, index) => {
-                                    return (
-                                        <video
-                                            key={index}
-                                            src={video.url}
-                                            className={css.activePhoto}
-                                            onClick={() => {
+                            </div> : <div className={css.Videos}>
+                                {
+                                    userVideos.map((video, index) => {
+                                        return (
+                                            <video
+                                                key={index}
+                                                src={video.url}
+                                                className={css.activePhoto}
+                                                onClick={() => {
 
-                                                setpreviewPhotoClassname("PhotoPreview");
-                                                setPhotoUrl(video.url);
+                                                    setpreviewPhotoClassname("PhotoPreview");
+                                                    setPhotoUrl(video.url);
 
-                                            }}
-                                            muted
-                                            loop
-                                            playsInline
-                                            preload="metadata"
-                                            onMouseEnter={e => e.currentTarget.play()}
-                                            onMouseLeave={e => e.currentTarget.pause()}
-                                        />
-                                    );
-                                })
-                            }
-                        </div>
-                    }
+                                                }}
+                                                muted
+                                                loop
+                                                playsInline
+                                                preload="metadata"
+                                                onMouseEnter={e => e.currentTarget.play()}
+                                                onMouseLeave={e => e.currentTarget.pause()}
+                                            />
+                                        );
+                                    })
+                                }
+                            </div>
+                        }
 
-                </div>
+                    </div>
+                }
             </div>
             <div className={css[previewPhotoClassname]}>
                 {photoUrl && <div className={css.Close} onClick={() => {
@@ -294,8 +311,13 @@ const Profile = () => {
                 }
 
                 <div className={css.ActionButtons}>
-                    <button onClick={() => handleUpload()}>Upload</button>
-                    <button onClick={() => setPreviewFile(null)}>Discard</button>
+                    <UploadProgress />
+                    <div className={css.UploadBtn}>
+
+                        <button onClick={() => handleUpload()}>Upload</button>
+                        <button onClick={() => setPreviewFile(null)}>Discard</button>
+                    </div>
+
                 </div>
             </div>
         </div>

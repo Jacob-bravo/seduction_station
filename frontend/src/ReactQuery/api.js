@@ -7,9 +7,11 @@ import { auth } from "../firebase";
 import { storage } from '../firebase';
 import { ref, uploadBytes, getDownloadURL, uploadBytesResumable, updateMetadata } from "firebase/storage";
 import { toast } from "react-toastify";
+const PAYPAL_CLIENT_ID = "AfMDIfhXpnGypuMO-Q0k9itkbgaZIc79apCgEB1gPLLxfirCARKGnLyRwNvJQiM9suKaSEmvhaGwdCUB";
+const PAYPAL_SECRET_KEY = "ENrK-ovxlv4FIwLgCzIcpHucNzdY3V6UlgZvRzBAz0El_4KJLT8OhGptrBsOCtVV7IzB3iURAieys2YZ";
+const PAYPAL_BASE_URL = "https://api-m.sandbox.paypal.com";
 
-
-export const CreateAccount = async (username, email, password,socket) => {
+export const CreateAccount = async (username, email, password, socket) => {
     try {
         const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
         const { user } = userCredentials;
@@ -301,8 +303,12 @@ export const SendMessage = async (conversationUuid, message, uploadFirebaseFile)
 export const FetchMessages = async (conversationUuid) => {
     try {
         let link = `/api/v1/converstion/messages/${conversationUuid}`;
-        const { data } = await axios.get(link);
-        return data;
+        const response = await axios.get(link);
+        return {
+            Messages: response.data.Messages,
+            status: response.status,
+            statusText: response.statusText,
+        };
     } catch (error) {
         console.log(error);
         return {
@@ -354,7 +360,6 @@ export const uploadMediaToFirebase = (file, uid, isVideo, onProgress) => {
         const folder = isVideo === false ? "videos" : "photos";
         const fileName = `${Date.now()}_${file.name}`;
         const storagePath = `userProfiles/${uid}/${folder}/${fileName}`;
-        console.log(storagePath)
         const storageRef = ref(storage, storagePath);
         const uploadTask = uploadBytesResumable(storageRef, file);
 
@@ -363,7 +368,7 @@ export const uploadMediaToFirebase = (file, uid, isVideo, onProgress) => {
             (snapshot) => {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 if (onProgress) onProgress(progress.toFixed(0));
-                console.log(`Upload is ${progress.toFixed(2)}% done`);
+                // console.log(`Upload is ${progress.toFixed(2)}% done`);
             },
             (error) => {
                 console.error("Upload error:", error);
@@ -405,4 +410,109 @@ export const uploadMediaToFirebase = (file, uid, isVideo, onProgress) => {
         );
     });
 };
+export const initiatePayment = async (OrderPrice, ModelId) => {
+    try {
+        const storedUser = localStorage.getItem('userData');
+        if (!storedUser) {
+            throw new Error("User not logged in");
+        }
+        const user = JSON.parse(storedUser);
+        const myId = user._id
+        const data = { OrderPrice, ModelId, myId };
+        const response = await axios.post('/api/v1/payment', data);
 
+        if (response.status === 201) {
+            return {
+                approvalUrl: response.data.approvalUrl,
+                status: response.status,
+                statusText: response.statusText,
+            };
+        }
+    } catch (error) {
+
+    }
+}
+export const CheckPaidStatus = async (modelId) => {
+    try {
+        const storedUser = localStorage.getItem('userData');
+        if (!storedUser) {
+            throw new Error("User not logged in");
+        }
+        const user = JSON.parse(storedUser);
+        const myId = user._id
+        const data = { myId, modelId };
+        const response = await axios.post('/api/v1/models/paid-status', data);
+        if (response.status === 200) {
+            return {
+                hasPaid: response.data.hasPaid,
+                status: response.status,
+                statusText: response.statusText,
+            };
+        }
+    } catch (error) {
+
+    }
+}
+export const generateAccessToken = async () => {
+    try {
+        const base64Credentials = btoa(`${PAYPAL_CLIENT_ID}:${PAYPAL_SECRET_KEY}`);
+
+        const res = await axios.post(
+            `${PAYPAL_BASE_URL}/v1/oauth2/token`,
+            "grant_type=client_credentials",
+            {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Authorization": `Basic ${base64Credentials}`,
+                },
+            }
+        );
+
+        return res.data.access_token;
+
+    } catch (err) {
+        console.error("Error generating access token:", err?.response?.data || err.message);
+        throw err;
+    }
+};
+
+export const captureOrder = async (orderId, accessToken, modelId, myId) => {
+    try {
+        const res = await axios.post(
+            `${PAYPAL_BASE_URL}/v2/checkout/orders/${orderId}/capture`,
+            {},
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`,
+                },
+            }
+        );
+
+        if (res.data.status === "COMPLETED") {
+            completeOrder(modelId, myId);
+        } else {
+            console.warn("Order not completed. Status:", res.data.status);
+        }
+
+        return res.data;
+
+    } catch (err) {
+        console.error("Error capturing order:", err?.response?.data || err.message);
+        throw err;
+    }
+}
+const completeOrder = async (modelId, myId) => {
+    try {
+        const data = { modelId, myId };
+        const response = await axios.post('/api/v1/complete-order', data);
+        if (response.status === 200) {
+            return {
+                status: response.status,
+                statusText: response.statusText,
+            };
+        }
+    } catch (error) {
+
+    }
+}

@@ -7,12 +7,14 @@ import { toast } from "react-toastify";
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { AuthContext } from '../../AuthContext/AuthContext'
 import { useNavigate } from 'react-router-dom';
-
+import Loadingwidget from '../../Components/Loadingwidget/Loadingwidget';
 
 const Chats = () => {
     const { socket } = useContext(AuthContext);
     const navigate = useNavigate();
     const [model, setModel] = useState(null)
+    const [isLoading, setisLoading] = useState(true);
+    const [isMessagesLoading, setisMessagesLoading] = useState(true);
     const [uploadFile, setuploadFile] = useState("");
     const [uploadFirebaseFile, setuploadFirebaseFile] = useState(null);
     const [isPhotos, setIsPhotos] = useState(true);
@@ -67,9 +69,11 @@ const Chats = () => {
 
 
     useEffect(() => {
+        setisLoading(true);
         const fetchData = async () => {
             const data = await FetchConversations();
             setConversations(data.Conversations);
+            setisLoading(false);
         };
         fetchData();
     }, []);
@@ -130,8 +134,10 @@ const Chats = () => {
     }
     const fetchMessages = async (conversationId) => {
         try {
+            setisMessagesLoading(true);
             const response = await FetchMessages(conversationId);
             setMessages(response.Messages);
+            setisMessagesLoading(false);
         } catch (error) {
             toast(error.response?.data?.message || "Something went wrong");
         }
@@ -167,7 +173,9 @@ const Chats = () => {
     };
 
 
-
+    if (isLoading) {
+        return <Loadingwidget />
+    }
     return (
         <div className={css.Frame}>
             {/* Outer Row */}
@@ -203,7 +211,7 @@ const Chats = () => {
                     <div className={css.SearchArea}>
                         <i class="uil uil-search"></i>
                         <input type="text" name="" id="" placeholder='Search...' />
-                        <i class="uil uil-trash-alt"></i>
+
 
                     </div>
                     <div className={css.Conversations}>
@@ -225,7 +233,7 @@ const Chats = () => {
                                             setconversationUuid(convo.conversationUuid);
                                             fetchMessages(convo.conversationUuid);
                                             if (window.innerWidth <= 1024) {
-                                                navigate(`/messages/${convo.conversationUuid}/${otherMember.name}`);
+                                                navigate(`/messages/${convo.conversationUuid}/${otherMember.name}/${otherMember.userId}`);
                                             }
 
                                         }}
@@ -243,7 +251,7 @@ const Chats = () => {
                 {
                     model === null ? <div className={css.EmptyChatSection}>
                         <span>Start a chat: Choose a user on the left.</span>
-                    </div> : <div className={css.ChatAreaSection}>
+                    </div> : isMessagesLoading ? <Loadingwidget /> : <div className={css.ChatAreaSection}>
                         <div className={css.ChatNavigation}>
                             <div className={css.ChatUserDetails}>
                                 <span>{model.name}</span>
@@ -252,7 +260,7 @@ const Chats = () => {
                             <div className={css.QuickActions}>
                                 <i class="uil uil-search"></i>
                                 <div className={css.More}>
-                                    <i class="uil uil-ellipsis-v"></i>
+                                    <i class="uil uil-trash-alt"></i>
                                 </div>
                             </div>
                         </div>

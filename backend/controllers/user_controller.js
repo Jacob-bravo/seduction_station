@@ -305,3 +305,28 @@ exports.AddUserMedia = catchAsyncErrors(async (req, res, next) => {
     });
   }
 });
+exports.hasPaid = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { myId, modelId } = req.body;
+    const user = await User.findById(myId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    const hasPaid = user.cart.includes(modelId);
+    return res.status(200).json({
+      success: true,
+      message: "Status checked success",
+      hasPaid,
+    });
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+});

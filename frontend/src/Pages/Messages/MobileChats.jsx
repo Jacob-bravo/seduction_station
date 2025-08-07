@@ -10,7 +10,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const MobileChats = () => {
     const { socket } = useContext(AuthContext);
-    const { conversationId,username } = useParams();
+    const { conversationId,username,chattingMemberUserId } = useParams();
     const navigate = useNavigate();
     const [uploadFile, setuploadFile] = useState("");
     const [uploadFirebaseFile, setuploadFirebaseFile] = useState(null);
@@ -23,8 +23,6 @@ const MobileChats = () => {
     const mediaFileInputRef = useRef(null);
     const [lastSeen, setlastSeen] = useState("")
     const [text, setText] = useState("");
-    const [conversationUuid, setconversationUuid] = useState("");
-    const [chattingMemberUserId, setchattingMemberUserId] = useState("");
     const [messages, setMessages] = useState([])
     dayjs.extend(relativeTime);
     const scrollToBottom = () => {

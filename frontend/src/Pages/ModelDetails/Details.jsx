@@ -3,13 +3,18 @@ import css from "./Details.module.css"
 import { useParams } from "react-router-dom";
 import { Model_Photos } from '../../Data';
 import { useNavigate } from 'react-router-dom';
-import { FetchModel, newConversation } from '../../ReactQuery/api';
+import { FetchModel, initiatePayment, newConversation, CheckPaidStatus } from '../../ReactQuery/api';
 import { toast } from "react-toastify";
+import Loadingwidget from '../../Components/Loadingwidget/Loadingwidget';
+
 
 const Details = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const [model, setModel] = useState({});
+    const [isLoading, setisLoading] = useState(true);
+    const [paymentLoading, setpaymentLoading] = useState(false);
+    const [selectedService, setSelectedService] = useState('10');
     const [isPhotos, setIsPhotos] = useState(true);
     const [modelPhotos, setmodelPhotos] = useState([]);
     const [modelVideos, setmodelVideos] = useState([]);
@@ -24,12 +29,11 @@ const Details = () => {
     }
     const HandleMobileViewNavigation = async (indexId, index) => {
         if (indexId === 5) {
-            setHasPaid(true);
             if (index === 0) {
                 setIsPhotos(true);
             } else if (index === 1) {
                 setIsPhotos(false);
-            } else if (index === 3) {
+            } else if (index === 3 && hasPaid) {
                 const receiverData = {
                     userId: model._id,
                     name: model.username,
@@ -50,7 +54,7 @@ const Details = () => {
             }
 
         } else {
-            if (index === 3) {
+            if (index === 3 && hasPaid) {
                 const receiverData = {
                     userId: model._id,
                     name: model.username,
@@ -62,6 +66,7 @@ const Details = () => {
                         navigate('/messages')
                     } else {
                         // conversation exist navigate and toast
+                        navigate('/messages')
                     }
                 } catch (error) {
                     toast(error.response?.data?.message || "Something went wrong");
@@ -69,13 +74,17 @@ const Details = () => {
 
                 }
             } else {
-                navigate(`/model/media/${id}/${index}`)
+                if (hasPaid) {
+                    navigate(`/model/media/${id}/${index}`)
+                }
+
             }
 
         }
 
     }
     useEffect(() => {
+        setisLoading(true);
         const fetchUserData = async () => {
             try {
                 const response = await FetchModel(id);
@@ -83,16 +92,49 @@ const Details = () => {
                     setModel(response.model);
                     setmodelPhotos(response.model.Photos);
                     setmodelVideos(response.model.Videos);
+                    setisLoading(false);
                 }
             } catch (error) {
                 toast(error.response?.data?.message || "Something went wrong");
             }
         }
+        const fetchPaidStatusData = async () => {
+            try {
+                const response = await CheckPaidStatus(id);
+                if (response.status === 200) {
+                    setHasPaid(response.hasPaid);
+                    setisLoading(false);
+                }
+            } catch (error) {
+                toast(error.response?.data?.message || "Something went wrong");
+                setisLoading(true);
+            }
+        }
         fetchUserData();
+        fetchPaidStatusData();
     }, [id])
 
-    if (model === null && modelPhotos.length === 0 && modelVideos.length === 0) {
-        return <span>Loading....</span>
+    const handlePayment = async () => {
+        try {
+
+            if (hasPaid) {
+                toast("Payment exist. Enjoy")
+                return
+            }
+            setpaymentLoading(true);
+            const response = await initiatePayment(selectedService, model._id);
+            if (response.status === 201) {
+                window.location.href = response.approvalUrl;
+                setpaymentLoading(false);
+            }
+
+        } catch (error) {
+
+        }
+    }
+
+    if (isLoading) {
+        return <Loadingwidget />
     }
 
     return (
@@ -170,30 +212,46 @@ const Details = () => {
                         <div></div>
                         <span>Paypal</span>
                     </div>
-                    <div className={css.PaymentService}>
-                        <div></div>
-                        <span>Card</span>
-                    </div>
+                    {
+                        paymentLoading ? <Loadingwidget /> : <div className={css.Paybutton}>
+                            <select name="service" id="" value={selectedService}
+                                onChange={(e) => setSelectedService(e.target.value)}>
+                                <option value="10">Photos - $10</option>
+                                <option value="25">Videos $25</option>
+                                <option value="50">Sexting - $50</option>
+                            </select>
+                            <button onClick={() => handlePayment()}>Pay now</button>
+                        </div>
+                    }
+
                 </div>
             </div>
             <div className={css[previewPhotoClassname]}>
-                <div className={css.Close} onClick={() => {
-                    setpreviewPhotoClassname("HidePhotoPreview");
-                }}>
-                    <i class="uil uil-multiply"></i>
-                </div>
-                {
-                    isPhotos ? <img src={photoUrl} alt="DefaulPhotoUrlView" /> : <video
-                        src={photoUrl}
-                        autoPlay
-                        loop
-                        playsInline
-                        preload="metadata"
-                        controls
-                        controlsList="nodownload"
-                        onContextMenu={e => e.preventDefault()}
-                    />
-                }
+                {photoUrl && (
+                    <div className={css[previewPhotoClassname]}>
+                        <div className={css.Close} onClick={() => {
+                            setpreviewPhotoClassname("HidePhotoPreview");
+                            setPhotoUrl("");
+                        }}>
+                            <i className="uil uil-multiply"></i>
+                        </div>
+
+                        {isPhotos ? (
+                            <img src={photoUrl} alt="Preview" />
+                        ) : (
+                            <video
+                                src={photoUrl}
+                                autoPlay
+                                playsInline
+                                preload="metadata"
+                                controls
+                                controlsList="nodownload"
+                                onContextMenu={e => e.preventDefault()}
+                            />
+                        )}
+                    </div>
+                )}
+
 
             </div>
         </div>

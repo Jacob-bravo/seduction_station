@@ -2,7 +2,7 @@
   "name": "seduction_station",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:4000",
+  "proxy": "https://seduction-station.onrender.com",
   "dependencies": {
     "@tanstack/react-query": "^5.83.0",
     "@testing-library/dom": "^10.4.1",

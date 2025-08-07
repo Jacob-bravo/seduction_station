@@ -11,6 +11,7 @@ import Details from './Pages/ModelDetails/Details';
 import MobileDetails from './Pages/MobileDetails/MobileDetails';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CompleteOrder from './Pages/OrderPage/CompleteOrder';
 
 function App() {
   return (
@@ -20,10 +21,11 @@ function App() {
         <Route element={<Layout />}>
           <Route path='/home' element={<Homepage />} />
           <Route path='/messages' element={<Chats />} />
-          <Route path='/messages/:conversationId/:username' element={<MobileChats />} />
+          <Route path='/messages/:conversationId/:username/:chattingMemberUserId' element={<MobileChats />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/search' element={<Search />} />
           <Route path="/model/:id" element={<Details />} />
+          <Route path="/complete-order/:modelId/:myId" element={<CompleteOrder />} />
           <Route path="/model/media/:id/:index" element={<MobileDetails />} />
         </Route>
 

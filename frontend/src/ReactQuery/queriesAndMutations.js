@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
-import { FetchModels, getInfiniteModelResults,FetchConversations} from "./api";
+import { FetchModels, getInfiniteModelResults, FetchConversations } from "./api";
 
 export const useGetModels = () => {
     const queryClient = useQueryClient();
@@ -15,8 +15,12 @@ export const useGetModels = () => {
         },
         select: (data) => {
             const allModels = data?.pages.flatMap((page) => page.Models) || [];
-            const reversedModels = allModels.slice().reverse();
-            return reversedModels;
+            const shuffledModels = allModels.slice();
+            for (let i = shuffledModels.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffledModels[i], shuffledModels[j]] = [shuffledModels[j], shuffledModels[i]];
+            }
+            return shuffledModels;
         },
         queryClient,
     });
