@@ -28,6 +28,10 @@ const Details = () => {
         </div>
     }
     const HandleMobileViewNavigation = async (indexId, index) => {
+        if (!hasPaid) {
+            toast('Pay to access more content')
+            return
+        }
         if (indexId === 5) {
             if (index === 0) {
                 setIsPhotos(true);

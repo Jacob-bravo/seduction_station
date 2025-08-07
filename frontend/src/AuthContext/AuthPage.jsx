@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import css from "./AuthPage.module.css"
 import Login from '../Components/Login/Login'
 import SignUp from '../Components/SignUp/Signup'
-import { CreateAccount, SendPasswordResetEmail, SignInToAccount } from '../ReactQuery/api';
 import ForgotPass from '../Components/ForgotPassword/ForgotPass'
 
 const AuthPage = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from 'react'
 import css from "./Profile.module.css"
 import { useForm } from 'react-hook-form';
-import ImageOne from "../../Images/photo1.jpg"
+import { DefaultProfile } from '../../Data';
 import { updateUser, uploadMediaToFirebase, FetchModel } from '../../ReactQuery/api';
 import { AuthContext } from "../../AuthContext/AuthContext"
 import Loadingwidget from '../../Components/Loadingwidget/Loadingwidget';
@@ -12,9 +12,9 @@ const Profile = () => {
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isProfileLoading, setisLoading] = useState(true);
     const [isuploadingLoading, setisuploadingLoading] = useState(false);
-    const [photoUrl, setPhotoUrl] = useState(ImageOne)
+    const [photoUrl, setPhotoUrl] = useState(DefaultProfile)
     const [previewPhotoClassname, setpreviewPhotoClassname] = useState("HidePhotoPreview")
-    const [profileImage, setProfileImage] = useState(ImageOne);
+    const [profileImage, setProfileImage] = useState(DefaultProfile);
     const [uploadFile, setuploadFile] = useState("");
     const [uploadFirebaseFile, setuploadFirebaseFile] = useState(null);
     const [previewFile, setPreviewFile] = useState(null);

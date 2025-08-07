@@ -17,6 +17,10 @@ const Login = ({ onClick }) => {
     };
     const navigate = useNavigate();
     const onSubmit = async (data) => {
+        if (loading) {
+            toast("Authentication in progress");
+            return;
+        }
         setLoading(true);
         try {
             const response = await LoginTOAccount(data.email, data.password, socket);
@@ -62,7 +66,7 @@ const Login = ({ onClick }) => {
                     </div>
                 </div>
                 {errors.password && <span className={css.ErrorMessage}>Password should be at least 6 characters</span>}
-                <button type='submit' className={css.loginButton}>Login</button>
+                <button type='submit' className={css.loginButton}>{loading ? "Please wait...." : "Login"}</button>
             </form>
 
         </div>

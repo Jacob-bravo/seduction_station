@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext,useState} from 'react';
 import css from "./LandingPage.module.css"
 import { Model_Photos } from '../../Data'
 import AuthPage from '../../AuthContext/AuthPage'

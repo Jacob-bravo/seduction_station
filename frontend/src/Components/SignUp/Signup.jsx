@@ -17,6 +17,10 @@ const SignUp = () => {
     };
     const navigate = useNavigate();
     const onSubmit = async (data) => {
+        if (loading) {
+            toast("Account creation in progress");
+            return;
+        }
         setLoading(true);
         try {
             const response = await CreateAccount(data.text, data.email, data.password, socket);
@@ -68,7 +72,7 @@ const SignUp = () => {
                     </div>
                 </div>
                 {errors.password && <span className={css.ErrorMessage}>Password should be at least 6 characters</span>}
-                <button type='submit' className={css.loginButton}>Sign Up</button>
+                <button type='submit' className={css.loginButton}>{loading ? "Please wait..." : "Create an account"}</button>
             </form>
 
         </div>
