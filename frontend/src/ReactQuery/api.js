@@ -7,8 +7,8 @@ import { auth } from "../firebase";
 import { storage } from '../firebase';
 import { ref, uploadBytes, getDownloadURL, uploadBytesResumable, updateMetadata } from "firebase/storage";
 import { toast } from "react-toastify";
-const PAYPAL_CLIENT_ID = "AfMDIfhXpnGypuMO-Q0k9itkbgaZIc79apCgEB1gPLLxfirCARKGnLyRwNvJQiM9suKaSEmvhaGwdCUB";
-const PAYPAL_SECRET_KEY = "ENrK-ovxlv4FIwLgCzIcpHucNzdY3V6UlgZvRzBAz0El_4KJLT8OhGptrBsOCtVV7IzB3iURAieys2YZ";
+const PAYPAL_CLIENT_ID = "AYKL9PA8v4xi6vmQgZNm6Ju54TGuQgesh-a7uAIuL9AP8euhbPkp5-Xg61X3vG5mJRKfkghDFyXEgpCy";
+const PAYPAL_SECRET_KEY = "EIhMulkVuPYlTCn5MOdssac09i54EkoQ1LA9zu-AMkib1jAyuyt5T0MeHNczLsjfV9BJJb22D6IDDFFr";
 const PAYPAL_BASE_URL = "https://api-m.sandbox.paypal.com";
 
 export const CreateAccount = async (username, email, password, socket) => {
