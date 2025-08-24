@@ -14,7 +14,6 @@ const Details = () => {
     const [model, setModel] = useState({});
     const [isLoading, setisLoading] = useState(true);
     const [paymentLoading, setpaymentLoading] = useState(false);
-    const [selectedService, setSelectedService] = useState('10');
     const [isPhotos, setIsPhotos] = useState(true);
     const [modelPhotos, setmodelPhotos] = useState([]);
     const [modelVideos, setmodelVideos] = useState([]);
@@ -24,12 +23,12 @@ const Details = () => {
     const ServiceCard = ({ ServiceHeader, ServiceTagline, price, className, onClick }) => {
         return <div className={css[className]} onClick={onClick}>
             <span>{ServiceHeader}</span>
-            <span>{ServiceTagline} <span className={css.servicePrice}>${price}</span></span>
+            <span>{ServiceTagline} <span className={css.servicePrice}></span></span>
         </div>
     }
     const HandleMobileViewNavigation = async (indexId, index) => {
         if (!hasPaid) {
-            toast('Pay to access more content')
+            toast('Pay 1$ to start chatting')
             return
         }
         if (indexId === 5) {
@@ -126,7 +125,7 @@ const Details = () => {
                 return
             }
             setpaymentLoading(true);
-            const response = await initiatePayment(selectedService, model._id);
+            const response = await initiatePayment('1', model._id);
             if (response.status === 201) {
                 window.location.href = response.approvalUrl;
                 setpaymentLoading(false);
@@ -203,12 +202,12 @@ const Details = () => {
                 </div>
                 <div className={css.Services}>
                     <span className={css.ServicesTitle}>Services:</span>
-                    <ServiceCard className={isPhotos ? "selectedservice" : "service"} ServiceHeader={"Photos"} ServiceTagline={"High-quality personal photos. Price"} price={"10"} onClick={() => HandleMobileViewNavigation(5, 0)} />
-                    <ServiceCard className={"Mobileservice"} ServiceHeader={"Photos"} ServiceTagline={"High-quality personal photos. Price"} price={"10"} onClick={() => HandleMobileViewNavigation(0, 8)} />
-                    <ServiceCard className={!isPhotos ? "selectedservice" : "service"} ServiceHeader={"Videos"} ServiceTagline={"Custom video content. Price:"} price={"20"} onClick={() => HandleMobileViewNavigation(5, 1)} />
-                    <ServiceCard className={"Mobileservice"} ServiceHeader={"Videos"} ServiceTagline={"Custom video content. Price:"} price={"20"} onClick={() => HandleMobileViewNavigation(0, 4)} />
-                    <ServiceCard className={"service"} ServiceHeader={"Sexting"} ServiceTagline={"Private text sessions. Price:"} price={"50"} onClick={() => HandleMobileViewNavigation(5, 3)} />
-                    <ServiceCard className={"Mobileservice"} ServiceHeader={"Sexting"} ServiceTagline={"Private text sessions. Price:"} price={"50"} onClick={() => HandleMobileViewNavigation(0, 3)} />
+                    <ServiceCard className={isPhotos ? "selectedservice" : "service"} ServiceHeader={"Photos"} ServiceTagline={"High-quality personal photos."} price={""} onClick={() => HandleMobileViewNavigation(5, 0)} />
+                    <ServiceCard className={"Mobileservice"} ServiceHeader={"Photos"} ServiceTagline={"High-quality personal photos."} price={""} onClick={() => HandleMobileViewNavigation(0, 8)} />
+                    <ServiceCard className={!isPhotos ? "selectedservice" : "service"} ServiceHeader={"Videos"} ServiceTagline={"Custom video content."} price={""} onClick={() => HandleMobileViewNavigation(5, 1)} />
+                    <ServiceCard className={"Mobileservice"} ServiceHeader={"Videos"} ServiceTagline={"Custom video content."} price={""} onClick={() => HandleMobileViewNavigation(0, 4)} />
+                    <ServiceCard className={"service"} ServiceHeader={"Sexting"} ServiceTagline={"Private text sessions."} price={""} onClick={() => HandleMobileViewNavigation(5, 3)} />
+                    <ServiceCard className={"Mobileservice"} ServiceHeader={"Sexting"} ServiceTagline={"Private text sessions."} price={""} onClick={() => HandleMobileViewNavigation(0, 3)} />
                 </div>
                 <div className={css.PaymentMethods}>
                     <span className={css.ServicesTitle}>Payment Method:</span>
@@ -218,13 +217,7 @@ const Details = () => {
                     </div>
                     {
                         paymentLoading ? <Loadingwidget /> : <div className={css.Paybutton}>
-                            <select name="service" id="" value={selectedService}
-                                onChange={(e) => setSelectedService(e.target.value)}>
-                                <option value="10">Photos - $10</option>
-                                <option value="25">Videos $25</option>
-                                <option value="50">Sexting - $50</option>
-                            </select>
-                            <button onClick={() => handlePayment()}>Pay now</button>
+                            <button onClick={() => handlePayment()}>Pay $1 to start chatting</button>
                         </div>
                     }
 

@@ -192,18 +192,10 @@
     height: 50px;
 }
 
-.Paybutton select {
-    height: 40px;
-    width: 140px;
-    border: none;
-    outline: none;
-    padding: 5px;
-    border-radius: 20px;
-}
 
 .Paybutton button {
     height: 40px;
-    width: 100px;
+    width: 200px;
     outline: none;
     border: none;
     cursor: pointer;
