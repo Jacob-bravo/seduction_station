@@ -83,6 +83,7 @@ const MobileChats = () => {
           setProgress(progress);
           if (progress === 100) {
             setPreviewFile(null);
+            
           }
         }
       );

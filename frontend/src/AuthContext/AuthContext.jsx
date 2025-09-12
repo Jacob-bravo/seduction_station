@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (authUser) => {
       if (authUser) {
-        const newSocket = io("https://seduction-station.onrender.com");
+        const newSocket = io("https://secretseduction.org");
         setSocket(newSocket);
         const userId = authUser.uid;
         let userData = null;

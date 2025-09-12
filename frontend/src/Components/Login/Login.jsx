@@ -30,13 +30,12 @@ const Login = ({ onClick }) => {
       if (response.status === 200) {
         setLoading(false);
         navigate("/home");
-      }
-       else {
+      } else {
         toast(response.statusText);
         setLoading(false);
       }
     } catch (error) {
-      toast(error.response?.data?.message || "Something went wrong");
+      toast(error.response?.data?.message);
       setLoading(false);
     }
   };

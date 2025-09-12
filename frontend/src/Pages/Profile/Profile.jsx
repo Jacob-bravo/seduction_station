@@ -195,7 +195,7 @@ const Profile = () => {
             <input
               type="text"
               placeholder="Username"
-              {...register("username", { required: true })}
+              {...register("username", { required: false })}
             />
           </div>
           {errors.username && (
@@ -208,7 +208,7 @@ const Profile = () => {
             <input
               type="text"
               placeholder="Your bio"
-              {...register("biography", { required: true })}
+              {...register("biography", { required: false })}
             />
           </div>
           {errors.username && (

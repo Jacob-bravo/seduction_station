@@ -31,35 +31,73 @@ export const CreateAccount = async (username, email, password, socket) => {
       password
     );
     const { user } = userCredentials;
+
     if (!user || !user.uid) {
       throw new Error("Firebase user creation failed.");
     }
+
     const userUid = user.uid;
     const data = { username, email, userUid };
+
     const response = await axios.post(
       "/api/v1/user/create-new-account/login",
       data
     );
-    console.log(response.status);
+
     if (response.status === 201) {
       localStorage.setItem("userData", JSON.stringify(response.data.user));
       socket.emit("userConnected", response.data.user._id);
+
       return {
         user: response.data.user,
         status: response.status,
         statusText: response.statusText,
       };
     }
+
     // rollback Firebase account if MongoDB write fails
     await user.delete();
   } catch (error) {
+    let errorMessage = "Something went wrong during account creation.";
+    let statusCode = 500;
+
+    if (error.code) {
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          errorMessage =
+            "This email is already registered. Try logging in instead.";
+          statusCode = 409;
+          break;
+        case "auth/invalid-email":
+          errorMessage = "The email address is not valid.";
+          statusCode = 400;
+          break;
+        case "auth/weak-password":
+          errorMessage = "Password should be at least 6 characters.";
+          statusCode = 400;
+          break;
+        default:
+          errorMessage = error.message || "An unknown Firebase error occurred.";
+          statusCode = 500;
+          break;
+      }
+    } else if (error.response) {
+      // backend error handling
+      errorMessage =
+        error.response.data?.message ||
+        error.response.statusText ||
+        "Backend error.";
+      statusCode = error.response.status;
+    }
+
     return {
       user: null,
-      status: error?.response?.status || 500,
-      statusText: error.response?.data?.message || "Something went wrong",
+      status: statusCode,
+      statusText: errorMessage,
     };
   }
 };
+
 export const LoginTOAccount = async (email, password, socket) => {
   try {
     const userCredentials = await signInWithEmailAndPassword(
@@ -68,16 +106,20 @@ export const LoginTOAccount = async (email, password, socket) => {
       password
     );
     const { user } = userCredentials;
+
     if (!user || !user.uid) {
-      throw new Error("Login failed. try again later");
+      throw new Error("Login failed. Try again later.");
     }
+
     const uid = user.uid;
     const data = { email, uid };
+
     const response = await axios.post("/api/v1/user/account/login", data);
 
     if (response.status === 200) {
       localStorage.setItem("userData", JSON.stringify(response.data.user));
       socket.emit("userConnected", response.data.user._id);
+
       return {
         user: response.data.user,
         status: response.status,
@@ -85,13 +127,49 @@ export const LoginTOAccount = async (email, password, socket) => {
       };
     } else {
       await auth.signOut();
-      throw new Error("login failed try again later");
+      throw new Error("Login failed. Try again later.");
     }
   } catch (error) {
+    let errorMessage = "Something went wrong. Please try again.";
+    let statusCode = 500;
+    if (error.code) {
+      switch (error.code) {
+        case "auth/wrong-password":
+          errorMessage = "Incorrect password. Please try again.";
+          statusCode = 401;
+          break;
+        case "auth/user-not-found":
+          errorMessage = "No account found with this email.";
+          statusCode = 404;
+          break;
+        case "auth/invalid-email":
+          errorMessage = "The email address is not valid.";
+          statusCode = 400;
+          break;
+        case "auth/too-many-requests":
+          errorMessage = "Too many failed login attempts. Try again later.";
+          statusCode = 429;
+          break;
+        case "auth/invalid-credential":
+          errorMessage = "Invalid email or password. Please try again.";
+          statusCode = 401;
+          break;
+        default:
+          errorMessage = error.message || "An unknown error occurred.";
+          statusCode = 500;
+          break;
+      }
+    } else if (error.response) {
+      errorMessage =
+        error.response.data?.message ||
+        error.response.statusText ||
+        "Backend error.";
+      statusCode = error.response.status;
+    }
     return {
       user: null,
-      status: error?.response?.status || 500,
-      statusText: error.response?.data?.message || "Something went wrong",
+      status: statusCode,
+      statusText: errorMessage,
     };
   }
 };
@@ -387,6 +465,12 @@ export const updateUser = async (image, username, about) => {
 
     const uid = user.Uid;
     let imageUrl = user.profileimage;
+
+    // keep original values if username/about are empty
+    const finalUsername = username && username.trim() !== "" ? username : user.username;
+    const finalAbout = about && about.trim() !== "" ? about : user.about;
+
+    // handle image upload
     if (image) {
       const storageRef = ref(storage, `userProfiles/${uid}/profile.jpg`);
       await uploadBytes(storageRef, image);
@@ -396,9 +480,10 @@ export const updateUser = async (image, username, about) => {
     const requestBody = {
       uid,
       profileimage: imageUrl,
-      username,
-      about,
+      username: finalUsername,
+      about: finalAbout,
     };
+
     const response = await axios.post(`/api/v1/user/upload`, requestBody);
 
     if (response.status === 200) {
@@ -412,6 +497,7 @@ export const updateUser = async (image, username, about) => {
     throw error;
   }
 };
+
 export const uploadMediaToFirebase = (file, uid, isVideo, onProgress) => {
   return new Promise((resolve, reject) => {
     const folder = isVideo === false ? "videos" : "photos";

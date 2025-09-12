@@ -1,181 +1,186 @@
-.Frame{
-    width: 100vw;
-    height: 100vh;
+.Frame {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
 }
 .ChatAreaSection {
-    height: 100%;
-    overflow: hidden;
-    width: 100vw;
-    color: white;
-    display: flex;
-    flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  width: 100vw;
+  color: white;
+  display: flex;
+  flex-direction: column;
 }
 .ChatNavigation {
-    color: white;
-    display: flex;
-    box-sizing: border-box;
-    padding: 10px;
-    flex-direction: row;
-    justify-content: space-between;
+  color: white;
+  display: flex;
+  box-sizing: border-box;
+  padding: 10px;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .More {
-    display: flex;
-    box-sizing: content-box;
-    padding: 8px;
-    border-radius: 10px;
-    border: 1px solid white;
+  display: flex;
+  box-sizing: content-box;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid white;
 }
 
 .ChatUserDetails {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 .QuickActions {
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
 }
 .MessagesArea {
-    margin-left: 3px;
-    height: 100%;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
+  margin-left: 3px;
+  height: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 100px;
+  width: 100vw;
 }
-.FileInputRow{
-    display: flex;
-    gap: 15px;
-    margin-right: 20px;
+.FileInputRow {
+  display: flex;
+  gap: 15px;
+  margin-right: 20px;
 }
 .InputMessageArea {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    width: 90%;
-    align-self: center;
-    height: 50px;
-    border-radius: 10px;
-    border: 1px solid white;
-    display: flex;
-    color: white;
-    padding: 0px 10px;
-    align-items: center;
+  position: fixed;
+  margin-top: 5px;
+  bottom: 0;
+  margin-bottom: 5px;
+  width: 90%;
+  align-self: center;
+  height: 50px;
+  border-radius: 10px;
+  border: 1px solid white;
+  display: flex;
+  background-color: var(--background-color);
+  color: white;
+  padding: 0px 10px;
+  align-items: center;
 }
 .InputMessageArea input {
-    border: none;
-    outline: none;
-    width: 100%;
-    height: 40px;
-    color: white;
-    background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 40px;
+  color: white;
+  background-color: transparent;
 }
 .PreviewUploadFile {
-    display: flex;
-    position: absolute;
-    height: 50vh;
-    width: 60vw;
-    margin-bottom: 70vh;
-    z-index: 11;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    flex-direction: column;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-    color: white;
-    align-items: center;
-    padding: 20px;
+  display: flex;
+  position: absolute;
+  height: 50vh;
+  width: 60vw;
+  margin-bottom: 70vh;
+  z-index: 11;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+  color: white;
+  align-items: center;
+  padding: 20px;
 }
 
 .PreviewUploadFile img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
 }
 
 .PreviewUploadFile video {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
 }
 
 .Discard {
-    height: 60px;
-    width: 60px;
-    position: absolute;
-    right: 20px;
-    z-index: 111;
-    background-color: white;
-    color: black;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  right: 20px;
+  z-index: 111;
+  background-color: white;
+  color: black;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .InputMessageArea input::placeholder {
-    color: white;
+  color: white;
 }
 
 .ChatUserDetails span:nth-child(1) {
-    font-weight: bold;
-    font-size: 20px;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .ChatUserDetails span:nth-child(2) {
-    font-weight: normal;
-    font-size: 13px;
+  font-weight: normal;
+  font-size: 13px;
 }
 
 .Close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    height: 60px;
-    width: 60px;
-    background-color: white;
-    border-radius: 50%;
-    overflow: hidden;
-    color: black;
-    cursor: pointer;
-    display: flex;
-    z-index: 9;
-    align-items: center;
-    justify-content: center;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 60px;
+  width: 60px;
+  background-color: white;
+  border-radius: 50%;
+  overflow: hidden;
+  color: black;
+  cursor: pointer;
+  display: flex;
+  z-index: 9;
+  align-items: center;
+  justify-content: center;
 }
 
 .PhotoPreview {
-    position: fixed;
-    z-index: 2;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .PhotoPreview img {
-    width: 90vw;
-    height: 90vh;
-    object-fit: contain;
+  width: 90vw;
+  height: 90vh;
+  object-fit: contain;
 }
 
 .PhotoPreview video {
-    width: 90vw;
-    height: 90vh;
-    object-fit: contain;
+  width: 90vw;
+  height: 90vh;
+  object-fit: contain;
 }
 
 .HidePhotoPreview {
-    display: none;
+  display: none;
 }

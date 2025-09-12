@@ -33,15 +33,15 @@ const SignUp = () => {
         socket
       );
       if (response.status === 201) {
-        toast(`Welcome ${data.text}`);
         setLoading(false);
         navigate("/home");
       } else {
-        toast(response.statusText);
         setLoading(false);
       }
     } catch (error) {
-      toast(error.response?.data?.message || "Something went wrong");
+      toast(
+        error.response?.data?.message || "Something went wrong. Try again Later"
+      );
       setLoading(false);
     }
   };
@@ -54,7 +54,7 @@ const SignUp = () => {
           <input
             type="text"
             placeholder="Username"
-            {...register("text", { required: true, minLength: 6 })}
+            {...register("text", { required: true, minLength: 1 })}
           />
         </div>
         {errors.email && (
