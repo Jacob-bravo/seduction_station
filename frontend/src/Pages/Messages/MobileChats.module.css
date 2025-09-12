@@ -48,13 +48,13 @@
 }
 .FileInputRow{
     display: flex;
-    gap: 10px;
-    margin-right: 15px;
+    gap: 15px;
+    margin-right: 20px;
 }
 .InputMessageArea {
     margin-top: 5px;
     margin-bottom: 5px;
-    width: 85%;
+    width: 90%;
     align-self: center;
     height: 50px;
     border-radius: 10px;
@@ -67,7 +67,6 @@
 .InputMessageArea input {
     border: none;
     outline: none;
-    padding-left: 50px;
     width: 100%;
     height: 40px;
     color: white;

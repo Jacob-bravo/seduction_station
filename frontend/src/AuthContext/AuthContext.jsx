@@ -8,11 +8,24 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [socket, setSocket] = useState(null);
-
+  const fetchUserWithRetry = async (userId, retries = 5, delay = 500) => {
+    for (let i = 0; i < retries; i++) {
+      try {
+        const response = await fetch(`/api/v1/user/uid/${userId}`);
+        if (response.ok) {
+          return await response.json();
+        }
+      } catch (err) {
+        console.error(`Fetch attempt ${i + 1} failed:`, err);
+      }
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+    throw new Error("User not found after retries");
+  };
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (authUser) => {
       if (authUser) {
-        const newSocket = io("https://seduction-station.onrender.com"); 
+        const newSocket = io("https://seduction-station.onrender.com");
         setSocket(newSocket);
         const userId = authUser.uid;
         let userData = null;
@@ -21,9 +34,8 @@ export function AuthProvider({ children }) {
           userData = JSON.parse(userDataString);
         } else {
           try {
-            const response = await fetch(`/api/v1/user/uid/${userId}`);
-            if (response.ok) {
-              userData = await response.json();
+            userData = await fetchUserWithRetry(userId);
+            if (userData) {
               localStorage.setItem("userData", JSON.stringify(userData.user));
             } else {
               console.error("Failed to fetch user data");
@@ -36,7 +48,7 @@ export function AuthProvider({ children }) {
         if (userData) {
           setUser(userData);
           newSocket.on("connect", () => {
-            newSocket.emit("userConnected", userData._id); 
+            newSocket.emit("userConnected", userData._id);
           });
         }
       } else {

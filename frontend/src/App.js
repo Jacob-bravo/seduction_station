@@ -1,5 +1,6 @@
 
 import { Routes, Route } from 'react-router-dom';
+import { MenuProvider } from './Components/NavigationBar/Menucontext';
 import LandingPage from "./Pages/LandingPage/LandingPage";
 import Homepage from "./Pages/Homepage/Homepage";
 import Chats from "./Pages/Messages/Chats";
@@ -8,7 +9,6 @@ import Profile from "./Pages/Profile/Profile";
 import Layout from './Components/Layout/Layout';
 import Search from './Pages/Search/Search';
 import Details from './Pages/ModelDetails/Details';
-import MobileDetails from './Pages/MobileDetails/MobileDetails';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CompleteOrder from './Pages/OrderPage/CompleteOrder';
@@ -16,6 +16,7 @@ import CompleteOrder from './Pages/OrderPage/CompleteOrder';
 function App() {
   return (
     <div className="App">
+      <MenuProvider>
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route element={<Layout />}>
@@ -26,10 +27,11 @@ function App() {
           <Route path='/search' element={<Search />} />
           <Route path="/model/:id" element={<Details />} />
           <Route path="/complete-order/:modelId/:myId" element={<CompleteOrder />} />
-          <Route path="/model/media/:id/:index" element={<MobileDetails />} />
         </Route>
 
       </Routes>
+      </MenuProvider>
+
       <ToastContainer />
     </div>
   );

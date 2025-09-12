@@ -7,10 +7,10 @@ const morgan = require("morgan");
 const path = require("path");
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  origin: "http://localhost:3000",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
-  optionsSuccessStatus: 204
+  optionsSuccessStatus: 204,
 };
 
 app.use(express.json());
@@ -22,10 +22,7 @@ app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
-      "script-src": [
-        "'self'",
-        "https://whitelisted-domain.com",
-      ],
+      "script-src": ["'self'", "https://whitelisted-domain.com"],
       "img-src": [
         "'self'",
         "https:",
@@ -39,17 +36,17 @@ app.use(
         "'self'",
         "https://seduction-station.onrender.com",
         "https://maps.googleapis.com",
+        "https://secretseduction.org/",
         "https://firebasestorage.googleapis.com",
         "https://identitytoolkit.googleapis.com",
         "https://securetoken.googleapis.com",
         "https://api-m.sandbox.paypal.com",
         "https://api-m.paypal.com",
-
       ],
       "media-src": [
         "'self'",
         "blob:",
-        "https://firebasestorage.googleapis.com"
+        "https://firebasestorage.googleapis.com",
       ],
       "frame-ancestors": ["'self'"],
     },
