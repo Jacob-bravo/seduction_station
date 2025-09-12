@@ -46,6 +46,7 @@ io.on("connection", (socket) => {
   });
   socket.on("SentMessage", async ({ chattingMemberUserId, sentMessage }) => {
     try {
+      
       const targetUser = getUser(chattingMemberUserId);
       if (targetUser) {
         const targetUserSocket = targetUser.socketId;
