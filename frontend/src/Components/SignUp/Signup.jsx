@@ -37,6 +37,7 @@ const SignUp = () => {
         navigate("/home");
       } else {
         setLoading(false);
+        toast(response.statusText);
       }
     } catch (error) {
       toast(

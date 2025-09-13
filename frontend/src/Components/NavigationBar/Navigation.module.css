@@ -34,12 +34,15 @@
   color: black;
   display: flex;
   align-items: center;
-  right: 0;
+  right: 10px;
   cursor: pointer;
   justify-content: center;
   height: 60px;
   width: 60px;
   border-radius: 50%;
+}
+.About > i {
+  font-size: 20px;
 }
 @media (max-width: 1024px) {
   .Frame {
@@ -78,7 +81,7 @@
   }
   .About {
     position: fixed;
-    bottom: 50vh;
+    bottom: 0;
     background-color: white;
     color: black;
     display: flex;
@@ -86,9 +89,15 @@
     right: 30px;
     cursor: pointer;
     justify-content: center;
-    height: 60px;
+    height: 20vh;
     width: 60px;
-    border-radius: 50%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+  .About > i {
+    font-size: 20px;
   }
 }
 
@@ -103,17 +112,20 @@
   }
   .About {
     position: fixed;
-    bottom: 15vh;
+    bottom: 0;
     background-color: white;
     color: black;
     display: flex;
     align-items: center;
-    left:20px;
+    right: 20px;
     cursor: pointer;
     justify-content: center;
-    height: 60px;
+    height: 20vh;
     width: 60px;
-    border-radius: 50%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
   }
   .Rows {
     height: 100vh;

@@ -42,7 +42,7 @@ const Navigation = () => {
           navigate("/about");
         }}
       >
-        <i class="uil uil-info"></i>
+        <i class="uil uil-info-circle"></i>
       </div>
     </div>
   );
