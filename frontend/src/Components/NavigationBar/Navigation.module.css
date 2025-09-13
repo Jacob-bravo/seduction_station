@@ -1,20 +1,62 @@
 .Frame {
-    width: fit-content;
-    display: flex;
-    height: 100vh;
-    align-items: center;
-    position: relative;
-
+  width: fit-content;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  position: relative;
 }
 
 .Rows {
-    color: white;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .RowInfo {
+  cursor: pointer;
+  display: flex;
+  box-sizing: content-box;
+  padding: 10px;
+  flex-direction: row;
+  gap: 10px;
+  transition: background-color 0.3s ease, border-radius 0.3s ease;
+}
+
+.RowInfo:hover {
+  background-color: #e63737;
+  border-radius: 5px;
+}
+.About {
+  position: absolute;
+  bottom: 20px;
+  background-color: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  right: 0;
+  cursor: pointer;
+  justify-content: center;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+}
+@media (max-width: 1024px) {
+  .Frame {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .Rows {
+    padding: 20px;
+    color: white;
+    display: flex;
+  }
+
+  .RowInfo {
     cursor: pointer;
     display: flex;
     box-sizing: content-box;
@@ -22,45 +64,13 @@
     flex-direction: row;
     gap: 10px;
     transition: background-color 0.3s ease, border-radius 0.3s ease;
-}
+  }
 
-
-.RowInfo:hover {
+  .RowInfo:hover {
     background-color: #e63737;
     border-radius: 5px;
+  }
 }
 
-@media (max-width: 1024px) {
-    .Frame {
-        width: fit-content;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-    }
-
-    .Rows {
-        padding: 20px;
-        color: white;
-        display: flex;
-
-    }
-
-    .RowInfo {
-        cursor: pointer;
-        display: flex;
-        box-sizing: content-box;
-        padding: 10px;
-        flex-direction: row;
-        gap: 10px;
-        transition: background-color 0.3s ease, border-radius 0.3s ease;
-    }
-
-    .RowInfo:hover {
-        background-color: #e63737;
-        border-radius: 5px;
-    }
+@media (max-width: 600px) {
 }
-
-@media (max-width: 600px) {}

@@ -126,6 +126,8 @@ const Chats = () => {
           setProgress(progress);
           if (progress === 100) {
             setPreviewFile(null);
+            setpreviewPhotoClassname("HidePhotoPreview");
+            setPhotoUrl("");
           }
         }
       );
@@ -152,14 +154,20 @@ const Chats = () => {
         );
         setPreviewFile(null);
         setProgress(0);
+        setpreviewPhotoClassname("HidePhotoPreview");
+        setPhotoUrl("");
         setIsSendingMessage(false);
       } else {
         setProgress(0);
+        setpreviewPhotoClassname("HidePhotoPreview");
+        setPhotoUrl("");
         setPreviewFile(null);
         toast(response.statusText);
       }
     } catch (error) {
       setProgress(0);
+      setpreviewPhotoClassname("HidePhotoPreview");
+      setPhotoUrl("");
       setPreviewFile(null);
       toast(error.response?.data?.message || "Something went wrong");
     }
@@ -390,11 +398,20 @@ const Chats = () => {
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && text.trim() !== "") {
-                    SendNewMessage();
+                    if (!iseSendingMessage) {
+                      SendNewMessage();
+                    }
                   }
                 }}
               />
-              <div className={css.ItemOne} onClick={() => SendNewMessage()}>
+              <div
+                className={css.ItemOne}
+                onClick={() => {
+                  if (!iseSendingMessage) {
+                    SendNewMessage();
+                  }
+                }}
+              >
                 <i className="uil uil-message"></i>
               </div>
             </div>

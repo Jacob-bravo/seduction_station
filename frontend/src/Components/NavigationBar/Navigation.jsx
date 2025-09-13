@@ -7,7 +7,7 @@ import { useMenu } from "./Menucontext";
 
 const Navigation = () => {
   const navigate = useNavigate();
-  const { activeIndex, setActiveIndex } = useMenu();
+  const { setActiveIndex } = useMenu();
   const handleNavigation = (link) => {
     const newlink = link.toLowerCase();
     if (newlink === "logout") {
@@ -35,6 +35,14 @@ const Navigation = () => {
             </div>
           );
         })}
+      </div>
+      <div
+        className={css.About}
+        onClick={() => {
+          navigate("/about");
+        }}
+      >
+        <i class="uil uil-info"></i>
       </div>
     </div>
   );

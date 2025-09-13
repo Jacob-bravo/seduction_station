@@ -10,12 +10,14 @@ import dayjs from "dayjs";
 import { toast } from "react-toastify";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { AuthContext } from "../../AuthContext/AuthContext";
+import Loadingwidget from "../../Components/Loadingwidget/Loadingwidget";
 import { useParams } from "react-router-dom";
 
 const MobileChats = () => {
   const { socket } = useContext(AuthContext);
   const { conversationId, username, chattingMemberUserId } = useParams();
   const [uploadFile, setuploadFile] = useState("");
+  const [isMessagesLoading, setisMessagesLoading] = useState(true);
   const [iseSendingMessage, setIsSendingMessage] = useState(false);
   const [progress, setProgress] = useState(0);
   const [uploadFirebaseFile, setuploadFirebaseFile] = useState(null);
@@ -27,7 +29,6 @@ const MobileChats = () => {
   const [isPreviewPhoto, setisPreviewPhoto] = useState(true);
   const [photoUrl, setPhotoUrl] = useState("");
   const mediaFileInputRef = useRef(null);
-  const [lastSeen, setlastSeen] = useState("");
   const [text, setText] = useState("");
   const [messages, setMessages] = useState([]);
   dayjs.extend(relativeTime);
@@ -50,10 +51,12 @@ const MobileChats = () => {
   };
 
   useEffect(() => {
+    setisMessagesLoading(true);
     const fetchMessages = async () => {
       try {
         const response = await FetchMessages(conversationId);
         setMessages(response.Messages);
+        setisMessagesLoading(false);
       } catch (error) {
         toast(error.response?.data?.message || "Something went wrong");
       }
@@ -83,7 +86,8 @@ const MobileChats = () => {
           setProgress(progress);
           if (progress === 100) {
             setPreviewFile(null);
-            
+            setpreviewPhotoClassname("HidePhotoPreview");
+            setPhotoUrl("");
           }
         }
       );
@@ -94,13 +98,19 @@ const MobileChats = () => {
         setText("");
         setPreviewFile(null);
         setProgress(0);
+        setpreviewPhotoClassname("HidePhotoPreview");
+        setPhotoUrl("");
         setIsSendingMessage(false);
       } else {
         setIsSendingMessage(false);
+        setpreviewPhotoClassname("HidePhotoPreview");
+        setPhotoUrl("");
         setPreviewFile(null);
         toast(response.statusText);
       }
     } catch (error) {
+      setpreviewPhotoClassname("HidePhotoPreview");
+      setPhotoUrl("");
       setIsSendingMessage(false);
       setPreviewFile(null);
       toast(error.response?.data?.message || "Something went wrong");
@@ -130,7 +140,9 @@ const MobileChats = () => {
     mediaFileInputRef.current.setAttribute("accept", acceptType);
     mediaFileInputRef.current?.click();
   };
-
+  if (isMessagesLoading) {
+    return <Loadingwidget />;
+  }
   return (
     <div className={css.Frame}>
       {/* previewMediaDiv */}

@@ -1,0 +1,58 @@
+.Frame {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: space-around;
+}
+.RowOne {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.RowOne > img {
+  height: 120px;
+  width: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.Circle {
+  height: 100px;
+  width: 100px;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.Contentbox {
+  padding: 20px;
+  width: 80vw;
+  border-radius: 20px;
+  box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    background-color: rgb(146, 105, 211);
+}
+.Contentbox > p {
+  font-family: nunito;
+  font-size: 17px;
+}
+@media (max-width: 600px) {
+  .Contentbox {
+    padding: 20px;
+    width: 90vw;
+    border-radius: 20px;
+    box-sizing: border-box;
+    color: rgb(255, 255, 255);
+    background-color: rgb(146, 105, 211);
+    margin-bottom: 100px;
+  }
+  .Contentbox > p {
+    font-family: nunito;
+    font-size: 13px;
+  }
+}

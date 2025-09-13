@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { Navigate } from "react-router-dom";
 import axios from "axios";
 import {
   createUserWithEmailAndPassword,
@@ -17,10 +16,11 @@ import {
   updateMetadata,
 } from "firebase/storage";
 import { toast } from "react-toastify";
+
 const PAYPAL_CLIENT_ID =
-  "AYKL9PA8v4xi6vmQgZNm6Ju54TGuQgesh-a7uAIuL9AP8euhbPkp5-Xg61X3vG5mJRKfkghDFyXEgpCy";
+  "Afz7vsz_mNK3biEdSDO2RGHz0DpqFvCJzqRavxpVqBuS71XYH93uziNQyuWIBtF0GLn0";
 const PAYPAL_SECRET_KEY =
-  "EIhMulkVuPYlTCn5MOdssac09i54EkoQ1LA9zu-AMkib1jAyuyt5T0MeHNczLsjfV9BJJb22D6IDDFFr";
+  "EBx4YJH-c548WOfsd55zF-D7g34i2zx1hAV9y3jLgLUXpNze6Bd8CXpbANCRKBZQxPmIsaroj0I-L3cE";
 const PAYPAL_BASE_URL = "https://api-m.sandbox.paypal.com";
 
 export const CreateAccount = async (username, email, password, socket) => {
@@ -98,7 +98,7 @@ export const CreateAccount = async (username, email, password, socket) => {
   }
 };
 
-export const LoginTOAccount = async (email, password, socket) => {
+export const LoginTOAccount = async (email, password) => {
   try {
     const userCredentials = await signInWithEmailAndPassword(
       auth,
@@ -108,25 +108,6 @@ export const LoginTOAccount = async (email, password, socket) => {
     const { user } = userCredentials;
 
     if (!user || !user.uid) {
-      throw new Error("Login failed. Try again later.");
-    }
-
-    const uid = user.uid;
-    const data = { email, uid };
-
-    const response = await axios.post("/api/v1/user/account/login", data);
-
-    if (response.status === 200) {
-      localStorage.setItem("userData", JSON.stringify(response.data.user));
-      socket.emit("userConnected", response.data.user._id);
-
-      return {
-        user: response.data.user,
-        status: response.status,
-        statusText: response.statusText,
-      };
-    } else {
-      await auth.signOut();
       throw new Error("Login failed. Try again later.");
     }
   } catch (error) {
@@ -467,7 +448,8 @@ export const updateUser = async (image, username, about) => {
     let imageUrl = user.profileimage;
 
     // keep original values if username/about are empty
-    const finalUsername = username && username.trim() !== "" ? username : user.username;
+    const finalUsername =
+      username && username.trim() !== "" ? username : user.username;
     const finalAbout = about && about.trim() !== "" ? about : user.about;
 
     // handle image upload

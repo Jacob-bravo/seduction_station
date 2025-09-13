@@ -1,0 +1,177 @@
+.Frame {
+  color: white;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+}
+.MonthlyCards {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  gap: 10px;
+  box-sizing: border-box;
+  padding: 20px;
+}
+.ServiceHeader {
+  padding: 20px;
+}
+.glassCard {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 10px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: #fff;
+  gap: 5px;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.glassCard:hover {
+  backdrop-filter: blur(100px);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+.InternalRow {
+  display: flex;
+  flex-direction: row;
+  text-align: start;
+  gap: 5px;
+}
+.planHeader {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.backgroundShapes {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.6;
+  animation: float 10s ease-in-out infinite alternate;
+}
+
+.shape1 {
+  background: #ff6ec4;
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  left: 10%;
+}
+
+.shape2 {
+  background: #7878ff;
+  width: 400px;
+  height: 400px;
+  bottom: 15%;
+  right: 5%;
+}
+
+.shape3 {
+  background: #00ffd5;
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) scale(1);
+  }
+  100% {
+    transform: translateY(-20px) scale(1.1);
+  }
+}
+@media (max-width: 768px) {
+  .glassCard {
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 10px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: #fff;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .Frame {
+    color: white;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .MonthlyCards {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+}
+@media (max-width: 600px) {
+  .glassCard {
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 5px;
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: #fff;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .Frame {
+    color: white;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  .MonthlyCards {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+  .mobileDivider{
+    margin-bottom: 100px;
+  }
+}

@@ -1,13 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import css from "./Login.module.css";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { LoginTOAccount } from "../../ReactQuery/api";
 import { toast } from "react-toastify";
-import { AuthContext } from "../../AuthContext/AuthContext";
 
 const Login = ({ onClick }) => {
-  const { socket } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -26,7 +24,11 @@ const Login = ({ onClick }) => {
     }
     setLoading(true);
     try {
-      const response = await LoginTOAccount(data.email, data.password, socket);
+      const response = await LoginTOAccount(
+        data.email,
+        data.password,
+      );
+
       if (response.status === 200) {
         setLoading(false);
         navigate("/home");
