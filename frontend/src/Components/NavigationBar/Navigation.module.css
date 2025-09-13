@@ -48,9 +48,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
   }
 
   .Rows {
+    height: 100vh;
+    position: fixed;
+    margin-top: 100px;
+    justify-content: flex-start;
+    right: 60px;
     padding: 20px;
     color: white;
     display: flex;
@@ -70,7 +76,53 @@
     background-color: #e63737;
     border-radius: 5px;
   }
+  .About {
+    position: fixed;
+    bottom: 50vh;
+    background-color: white;
+    color: black;
+    display: flex;
+    align-items: center;
+    right: 30px;
+    cursor: pointer;
+    justify-content: center;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+  }
 }
 
 @media (max-width: 600px) {
+  .Frame {
+    width: fit-content;
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .About {
+    position: fixed;
+    bottom: 15vh;
+    background-color: white;
+    color: black;
+    display: flex;
+    align-items: center;
+    left:20px;
+    cursor: pointer;
+    justify-content: center;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+  }
+  .Rows {
+    height: 100vh;
+    position: fixed;
+    margin-top: 100px;
+    justify-content: flex-start;
+    right: 60px;
+    padding: 20px;
+    color: white;
+    display: flex;
+  }
 }
