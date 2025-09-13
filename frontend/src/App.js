@@ -13,6 +13,7 @@ import Plans from "./Pages/Plans/Plans";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CompleteOrder from "./Pages/OrderPage/CompleteOrder";
+import CancelOrder from "./Pages/OrderPage/CancelOrder";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
               path="/complete-order/:modelId/:myId"
               element={<CompleteOrder />}
             />
+            <Route path="/cancel-order/:modelId" element={<CancelOrder />} />
             <Route path="/plans" element={<Plans />} />
             <Route path="/about" element={<About />} />
           </Route>
