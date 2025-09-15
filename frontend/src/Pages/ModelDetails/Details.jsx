@@ -49,18 +49,14 @@ const Details = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  const ServiceCard = ({
-    ServiceHeader,
-    ServiceTagline,
-    className,
-    onClick,
-  }) => {
+  const ServiceCard = ({ ServiceHeader, Services, className, onClick }) => {
     return (
       <div className={css[className]} onClick={onClick}>
         <span className={css.ServiceHeaderTT}>{ServiceHeader}</span>
-        <span>
-          {ServiceTagline} <span className={css.servicePrice}></span>
-        </span>
+        {Services &&
+          Services.slice(1).map((service, index) => {
+            return <span key={index + 1}>{service}</span>;
+          })}
       </div>
     );
   };
@@ -221,30 +217,18 @@ const Details = () => {
         </div>
         <div className={css.Services}>
           <span className={css.ServicesTitle}>Services:</span>
-          <ServiceCard
-            className={"selectedservice"}
-            ServiceHeader={"Photos"}
-            ServiceTagline={"High-quality personal photos."}
-            price={""}
-            onClick={() => HandleMobileViewNavigation(5, 0)}
-          />
-          <ServiceCard
-            className={"selectedservice"}
-            ServiceHeader={"Videos"}
-            ServiceTagline={"Custom video content."}
-            price={""}
-            onClick={() => HandleMobileViewNavigation(5, 1)}
-          />
-          <ServiceCard
-            className={"selectedservice"}
-            ServiceHeader={"Sexting"}
-            ServiceTagline={"Private text sessions."}
-            price={""}
-            onClick={() => HandleMobileViewNavigation(5, 3)}
-          />
+          {(model?.services || []).map((modelService, index) => (
+            <ServiceCard
+              key={index}
+              className={"selectedservice"}
+              ServiceHeader={modelService[0]}
+              Services={modelService}
+              price={""}
+              onClick={() => HandleMobileViewNavigation(5, 0)}
+            />
+          ))}
         </div>
         <div className={css.PaymentMethods}>
-          <span className={css.ServicesTitle}>Payment Method:</span>
           <div className={css.Paybutton}>
             {hasPaid ? (
               <div
@@ -311,27 +295,16 @@ const Details = () => {
         </div>
         <div className={css.Services}>
           <span className={css.ServicesTitle}>Services:</span>
-          <ServiceCard
-            className={"selectedservice"}
-            ServiceHeader={"Photos"}
-            ServiceTagline={"High-quality personal photos."}
-            price={""}
-            onClick={() => HandleMobileViewNavigation(5, 0)}
-          />
-          <ServiceCard
-            className={"selectedservice"}
-            ServiceHeader={"Videos"}
-            ServiceTagline={"Custom video content."}
-            price={""}
-            onClick={() => HandleMobileViewNavigation(5, 1)}
-          />
-          <ServiceCard
-            className={"selectedservice"}
-            ServiceHeader={"Sexting"}
-            ServiceTagline={"Private text sessions."}
-            price={""}
-            onClick={() => HandleMobileViewNavigation(5, 3)}
-          />
+          {(model?.services || []).map((modelService, index) => (
+            <ServiceCard
+              key={index}
+              className={"selectedservice"}
+              ServiceHeader={modelService[0]}
+              Services={modelService}
+              price={""}
+              onClick={() => HandleMobileViewNavigation(5, 0)}
+            />
+          ))}
           <span className={css.ServicesTitle}>Sneak Pics</span>
         </div>
       </div>

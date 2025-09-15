@@ -1,12 +1,9 @@
 const User = require("../models/UserModel");
-const Model = require("../models/Models");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
 const APIFeatures = require("../utils/apiFeatures");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const UserModel = require("../models/UserModel");
-
-
 
 // Hashing passwords
 // exports.createNewUserAccount = catchAsyncErrors(async (req, res, next) => {
@@ -47,7 +44,6 @@ const UserModel = require("../models/UserModel");
 //       })
 //     }
 
-
 //   } catch (error) {
 //     console.error(error);
 //     return res.status(500).json({
@@ -58,14 +54,9 @@ const UserModel = require("../models/UserModel");
 // });
 exports.createNewUserAccount = catchAsyncErrors(async (req, res, next) => {
   try {
-    const {
-      username,
-      profileimage,
-      email,
-      userUid,
-    } = req.body;
+    const { username, profileimage, email, userUid } = req.body;
 
-    const existingUser = await User.findOne({ email: email })
+    const existingUser = await User.findOne({ email: email });
 
     if (!existingUser) {
       const newUser = new User({
@@ -86,11 +77,10 @@ exports.createNewUserAccount = catchAsyncErrors(async (req, res, next) => {
     } else {
       return res.status(400).json({
         success: false,
-        message: "This email already exists. Please login or request a password reset"
-      })
+        message:
+          "This email already exists. Please login or request a password reset",
+      });
     }
-
-
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -102,12 +92,11 @@ exports.createNewUserAccount = catchAsyncErrors(async (req, res, next) => {
 
 exports.LoginExistingUser = catchAsyncErrors(async (req, res, next) => {
   try {
-    const {
-      email,
-      uid
-    } = req.body;
+    const { email, uid } = req.body;
 
-    const user = await User.findOne({ email: email, Uid: uid }).select('+password');
+    const user = await User.findOne({ email: email, Uid: uid }).select(
+      "+password"
+    );
 
     if (!user) {
       return res.status(401).json({
@@ -120,14 +109,13 @@ exports.LoginExistingUser = catchAsyncErrors(async (req, res, next) => {
       success: true,
       message: "Login successful",
     });
-
   } catch (error) {
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
     });
   }
-})
+});
 
 exports.createNewModel = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -137,8 +125,8 @@ exports.createNewModel = catchAsyncErrors(async (req, res, next) => {
       about,
       profileimage,
       Photos,
-      Videos
-    })
+      Videos,
+    });
     const savedModel = await newModel.save();
     if (savedModel._id) {
       return res.status(201).json({
@@ -153,14 +141,17 @@ exports.createNewModel = catchAsyncErrors(async (req, res, next) => {
       message: "Internal Server Error",
     });
   }
-})
+});
 
 exports.getAllModels = catchAsyncErrors(async (req, res, next) => {
   try {
     const resPerPage = 30;
     const modelsCount = await UserModel.countDocuments();
     const totalPages = Math.ceil(modelsCount / resPerPage);
-    const apiFeatures = new APIFeatures(UserModel.find({ isModel: true }), req.query)
+    const apiFeatures = new APIFeatures(
+      UserModel.find({ isModel: true }),
+      req.query
+    )
       .searchModel()
       .pagination(resPerPage);
     let Models = await apiFeatures.query;
@@ -168,8 +159,8 @@ exports.getAllModels = catchAsyncErrors(async (req, res, next) => {
       count: Models.length,
       totalPages,
       Models,
-      message: "Request Success"
-    })
+      message: "Request Success",
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -177,7 +168,7 @@ exports.getAllModels = catchAsyncErrors(async (req, res, next) => {
       message: "Internal Server Error",
     });
   }
-})
+});
 
 exports.getModelById = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -185,15 +176,14 @@ exports.getModelById = catchAsyncErrors(async (req, res, next) => {
     if (!model) {
       return res.status(404).json({
         success: false,
-        message: "Model not Found"
-      })
+        message: "Model not Found",
+      });
     }
     return res.status(200).json({
       success: true,
       message: "Model Found",
-      model
-    })
-
+      model,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -201,22 +191,21 @@ exports.getModelById = catchAsyncErrors(async (req, res, next) => {
       message: "Internal Server Error",
     });
   }
-})
+});
 exports.getUserUid = catchAsyncErrors(async (req, res, next) => {
   try {
     const user = await UserModel.findOne({ Uid: req.params.uid });
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "Model not Found"
-      })
+        message: "Model not Found",
+      });
     }
     return res.status(200).json({
       success: true,
       message: "Model Found",
-      user
-    })
-
+      user,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -224,7 +213,7 @@ exports.getUserUid = catchAsyncErrors(async (req, res, next) => {
       message: "Internal Server Error",
     });
   }
-})
+});
 
 exports.UploadMedia = catchAsyncErrors(async (req, res, next) => {
   try {
@@ -296,7 +285,6 @@ exports.AddUserMedia = catchAsyncErrors(async (req, res, next) => {
       message: "Media added successfully",
       user,
     });
-
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -321,7 +309,6 @@ exports.hasPaid = catchAsyncErrors(async (req, res, next) => {
       message: "Status checked success",
       hasPaid,
     });
-
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -330,3 +317,44 @@ exports.hasPaid = catchAsyncErrors(async (req, res, next) => {
     });
   }
 });
+exports.Addservices = catchAsyncErrors(async (req, res, next) => {
+  try {
+    const { modelId, services } = req.body;
+
+    const user = await User.findById(modelId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    if (!Array.isArray(user.services)) {
+      user.services = [];
+    }
+
+    if (Array.isArray(services)) {
+      user.services.push(services);
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Services must be an array of strings",
+      });
+    }
+
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Services added successfully",
+      services: user.services,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+});
+
+

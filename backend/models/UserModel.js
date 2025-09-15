@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 
-
 const UserSchema = new mongoose.Schema({
   isDisabled: {
     type: Boolean,
@@ -35,6 +34,10 @@ const UserSchema = new mongoose.Schema({
   profileimage: {
     type: String,
     default: "",
+  },
+  services: {
+    type: Array,
+    default: [],
   },
   cart: {
     type: Array,

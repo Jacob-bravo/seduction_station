@@ -31,6 +31,11 @@ export const Model_Photos = [
 
 export const Links = [
   {
+    link: "General Menu",
+    navigation: "general",
+    icon: <i class="uil uil-book-open"></i>,
+  },
+  {
     link: "Models",
     navigation: "home",
     icon: <i class="uil uil-18-plus"></i>,

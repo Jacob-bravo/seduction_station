@@ -14,6 +14,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CompleteOrder from "./Pages/OrderPage/CompleteOrder";
 import CancelOrder from "./Pages/OrderPage/CancelOrder";
+import Gmenu from "./Pages/General Menu/Gmenu";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="/cancel-order/:modelId" element={<CancelOrder />} />
             <Route path="/plans" element={<Plans />} />
             <Route path="/about" element={<About />} />
+            <Route path="/general" element={<Gmenu />} />
           </Route>
         </Routes>
       </MenuProvider>

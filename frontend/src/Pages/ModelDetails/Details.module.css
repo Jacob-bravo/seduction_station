@@ -15,11 +15,16 @@
 .modelContent {
   height: 100vh;
   width: 60vw;
+  position: sticky;
+  top: 0;
 }
 
 .Preview {
   width: 30vw;
   right: 0;
+  margin-top: 10px;
+  margin-bottom: 100px;
+  overflow-y: auto;
   height: 100vh;
 }
 
@@ -67,7 +72,18 @@
   font-weight: bolder;
   font-size: 25px;
 }
-
+.PaymentMethods {
+  height: 60px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  width: 30vw;
+  justify-content: space-around;
+  align-self: flex-end;
+  border-radius: 20px;
+  position: fixed;
+  bottom: 20px;
+}
 .Services,
 .PaymentMethods {
   display: flex;
@@ -82,7 +98,7 @@
   font-size: 20px;
   font-weight: bold;
   width: 90%;
-  height: 50px;
+  height: fit-content;
   border-radius: 10px;
   box-sizing: content-box;
   padding: 10px;
@@ -191,23 +207,23 @@
   align-items: center;
   justify-content: center;
 }
-.Modelvideo{
-    position: relative;
-    display: flex;
-    height: fit-content;
+.Modelvideo {
+  position: relative;
+  display: flex;
+  height: fit-content;
 }
-.playButton{
-    height: 60px;
-    right:20px;
-    top: 20px;
-    width: 60px;
-    position: absolute;
-    z-index: inherit;
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    border-radius: 50%;
-    align-items: center;
+.playButton {
+  height: 60px;
+  right: 20px;
+  top: 20px;
+  width: 60px;
+  position: absolute;
+  z-index: inherit;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  border-radius: 50%;
+  align-items: center;
 }
 @media (max-width: 768px) {
   .MobileFrame {
@@ -248,7 +264,7 @@
   .modelContent img {
     cursor: pointer;
     height: auto;
-       width: 97%;
+    width: 97%;
     object-fit: contain;
     border-radius: 20px;
   }
@@ -256,7 +272,7 @@
   .modelContent video {
     cursor: pointer;
     height: auto;
-      width: 90%;
+    width: 90%;
     object-fit: contain;
     border-radius: 20px;
     background: linear-gradient(rgb(61, 61, 61), rgb(0, 0, 0)) padding-box;
@@ -269,7 +285,7 @@
     font-size: 20px;
     font-weight: bold;
     width: 90%;
-    height: 50px;
+    height: fit-content;
     color: white;
     border-radius: 10px;
     box-sizing: content-box;
